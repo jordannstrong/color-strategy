@@ -1,5 +1,7 @@
 package flightData;
 
+import java.util.LinkedList;
+
 /**
  * Created by Ryan on 4/9/2016
  *

@@ -1,5 +1,7 @@
 package flightData;
 
+import java.awt.Color;
+
 /**
  * Created by Kevin on 3/29/2016;   Modified by Ryan on 4/9/2016
  *
