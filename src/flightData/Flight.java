@@ -14,6 +14,8 @@ public class Flight {
     private String flightID;
     private String startPoint;
     private String endPoint;
+    private double[] startCoordinate;
+    private double[] endCoordinate;
     //private Color pathColor;
 
 
@@ -41,10 +43,21 @@ public class Flight {
      * The regular constructor for Flight. Assumes that all information except for
      * the color of the Flight was provided, and sets appropriate fields.
      */
-    public Flight(String flightID, String startPoint, String endPoint){
+    public Flight(String flightID, String startPoint, String endPoint, double[] startCoordinate, double[] endCoordinate){
         this.flightID = flightID;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
+        if (startCoordinate.length != 2 || endCoordinate.length != 2) {
+            throw new IllegalArgumentException();
+        }
+        this.startCoordinate = new double[] {
+                startCoordinate[0],
+                startCoordinate[1]
+        };
+        this.endCoordinate = new double[] {
+                endCoordinate[0],
+                endCoordinate[1]
+        };
         //this.pathColor = null;
     }// end Flight
 
@@ -131,4 +144,11 @@ public class Flight {
         return this.pathColor;
     }// end getColor
 
+    public double[] getStartCoordinate() {
+        return startCoordinate;
+    }
+
+    public double[] getEndCoordinate() {
+        return endCoordinate;
+    }
 }// end Flight

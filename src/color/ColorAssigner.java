@@ -2,6 +2,8 @@ package color;
 
 import flightData.Flight;
 
+import java.util.LinkedList;
+
 public class ColorAssigner {
     public static void main(String[] args) {
         System.out.println("Hello.");
