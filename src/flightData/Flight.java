@@ -65,12 +65,12 @@ public class Flight {
      * The regular constructor for Flight. Assumes that all information needed
      * was provided and the appropriate fields are set to their variables.
      */
-    public Flight(String flightID, String startPoint, String endPoint, Color pathColor){
+   /* public Flight(String flightID, String startPoint, String endPoint, Color pathColor){
         this.flightID = flightID;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.pathColor = pathColor;
-    }// end Flight
+    }// end Flight*/
 
     /**
      * Mutator method to set the FlightID field of the Flight
@@ -104,9 +104,9 @@ public class Flight {
      *
      * @param pathColor A Color object containing the color value of the path
      */
-    public void setColor(Color pathColor) {
+    /*public void setColor(Color pathColor) {
         this.pathColor = pathColor;
-    }// end setColor
+    }// end setColor*/
 
     /**
      * Accessor method to get the FlightID field of the Flight
@@ -140,9 +140,9 @@ public class Flight {
      *
      * @return A Color object containing the color of the path
      */
-    public Color getColor(){
+    /*public Color getColor(){
         return this.pathColor;
-    }// end getColor
+    }// end getColor*/
 
     public double[] getStartCoordinate() {
         return startCoordinate;
