@@ -1,5 +1,6 @@
-import java.util.*;
 package color;
+import java.util.*;
+
 
 /*This class will serve as a controller for the other classes.
 *@author Spencer Bialt

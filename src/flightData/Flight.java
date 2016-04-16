@@ -36,15 +36,16 @@ public class Flight {
     }//end Flight
 
     /**
-     * The regular constructor for Flight. Assumes that all information except for
-     * the color of the Flight was provided, and sets appropriate fields.
+     *
+     * @param flightID
+     * @param coordinateList List of coordinate triples where each triple is of the form lon,lat,alt
+     * @param pathColor
      */
-    public Flight(String flightID, String startPoint, String endPoint, double[] startCoordinate, double[] endCoordinate){
+    public Flight(String flightID, List<double[]> coordinateList, Color pathColor){
         this.flightID = flightID;
-        if (startCoordinate.length != 2 || endCoordinate.length != 2) {
-            throw new IllegalArgumentException();
-        }
-        //this.pathColor = null;
+        this.coordinateList = coordinateList;
+        this.pathColor = pathColor;
+
     }// end Flight
 
     /**
@@ -90,6 +91,14 @@ public class Flight {
     public String getFlightID(){
         return this.flightID;
     }// end getFlightID
+
+    public Color getPathColor() {
+        return pathColor;
+    }
+
+    public List<double[]> getCoordinateList() {
+        return coordinateList;
+    }
 
     /**
      * Accessor method to get the startPoint field of the Flight
