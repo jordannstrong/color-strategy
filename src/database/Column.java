@@ -1,4 +1,4 @@
-package color;
+package database;
 
 /*
 * This class is a representation of a single column of an
@@ -18,26 +18,26 @@ public class Column
 	}
 	
 	//Getter for name field
-	public getName()
+	public String getName()
 	{
 		return name;
 	}
 
 	//Setter for name field
-	public setName(String _name)
+	public void setName(String _name)
 	{
 		name = _name;
 	}
 
 	//Getter for type field
-	public getType()
+	public String getType()
 	{
 		return type;
 	}
 
 	//Setter for type field
-	public setType(String _type)
+	public void setType(String _type)
 	{
-		return type;
+		type = _type;
 	}
 }
