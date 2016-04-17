@@ -1,6 +1,8 @@
-import javax.swing.*;	
-import java.util.*;
-package color;
+package database;
+
+import javax.swing.*;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 /* This class will serve as the User Interface for 
 * loading the database and selecting the columns
@@ -8,7 +10,7 @@ package color;
 *@author Spencer Bialt
 *@date 04/10/2016 
 */
-private class LoadDatabaseUI
+public class LoadDatabaseUI
 {
 	private LinkedList<Column> columnList;
 	//Must be initialized with titles and types of data table columns
@@ -21,7 +23,7 @@ private class LoadDatabaseUI
 		ListIterator<Column> iterator = columnList.listIterator();
 
 		//Set up frame with scrollbar
-		JFrame frame = new Frame("Select Database Columns");
+		JFrame frame = new JFrame("Select Database Columns");
 		JScrollPane scrollPane = new JScrollPane(frame);
 		frame.getContentPane().add(scrollPane);
 		//iterate through list, add checkbox for each column

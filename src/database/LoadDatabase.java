@@ -1,6 +1,6 @@
+package database;
 import java.sql.*;
 import java.util.*;
-package color;
 
 /*
 * This class query an OracleDB for it's column titles.
@@ -9,7 +9,7 @@ package color;
 * @author Spencer Bialt
 * @date  3/31/2016
 */
-private class LoadDatabase
+public class LoadDatabase
 
 {
 	private String tableName;
