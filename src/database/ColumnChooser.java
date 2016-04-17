@@ -8,13 +8,13 @@ package color;
 *@author Spencer Bialt
 *@date 04/10/2016 
 */
-private class LoadDatabaseUI
+private class ColumnChooser
 {
 	private LinkedList<Column> columnList;
 	//Must be initialized with titles and types of data table columns
 	//Constructor will create a JFrame containing a Scroll Pane of 
 	//checkboxes that allow the user to select their desired data
-	private LoadDatabaseUI(LinkedList<Column> _columnList)
+	protected ColumnChooser(LinkedList<Column> _columnList)
 	{
 		//Prepare column list for iteration
 		columnList = _columnList;
@@ -43,7 +43,7 @@ private class LoadDatabaseUI
 
 	/*Class will return the list of columns chosen by the user
 	*/
-	public ColumnList getSelectedColumns()
+	public LinkedList<Column> getSelectedColumnList()
 	{
 		//Must add logic to determine what is currently checked off 
 		return columnList;
