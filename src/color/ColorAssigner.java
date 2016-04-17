@@ -1,11 +1,16 @@
 package color;
 
+import flightData.Flight;
+
+import java.awt.*;
+import java.util.LinkedList;
+
 public class ColorAssigner {
     public static void main(String[] args) {
         ColorAssigner ca = new ColorAssigner();
 
         for (int i = 0; i < 35; i++) {
-            ca.getHue(i);
+            System.out.println("" + ca.getHue(i));
         }
     }
 
@@ -44,18 +49,18 @@ public class ColorAssigner {
     /**
      * Method for getting the hue value of the best color for the given iteration number.
      *
-     * The hue value is part of the HSL (Hue, Saturation, Lightness) color scheme.
+     * The hue value is part of the HSL color scheme.
      *
      * The method returns a hue of 0 (red) on n = 0, then its complementary color at a hue of 180 (green) on n = 1,
      * then the next base color at a hue of 90 (yellow) at n = 2, followed by its complement at n = 3, and so on and so
      * forth. Essentially, the color wheel is split into halves, then quarters, then eighths, etc. to ensure that each
      * color is visually distinguishable from the previous color. At a certain point, the colors chosen will no longer
-     * be distinguishable from the other colors. We can change the method to use darker/lighter shades when this
-     * happens, but for now this is a limitation of the program. The best way to ensure the biggest possible range of
-     * distinguishable color is to use the LAB color space and choose the colors based on the distance of the edges.
+     * be distinguishable from the other colors. We can change the method to use darker/lighter shades, but for now
+     * this is a limitation of the program. The best way to ensure the biggest possible range of distinguishable colors
+     * is to use the LAB color space and choose the colors based on the distance of the edges.
      *
      * Note that the method does not provide the other 2 values of HSL, Saturation and Lightness.
-     * @param n the nth item to color
+     * @param n the nth group to color
      * @return hue value (h) of color.
      */
     private double getHue(int n) {
@@ -69,31 +74,17 @@ public class ColorAssigner {
 
         double log = Math.log(n)/Math.log(2);
 
-        int debug = 0;
-
         if (log == Math.floor(log)) { // check if n is a power of 2
             exp = (int) log + 1;
             num = 1;
         }
         else {
             exp = (int) Math.ceil(log);
-            if (n % 2 == 0) {
-                int cp = (int) Math.pow(2, Math.floor(log)); // find closest power of 2 from n
-                debug = cp;
-                num = n - cp + 1;
-            }
-            else {
-                num = n;
-            }
+            int cp = (int) Math.pow(2, Math.floor(log)); // find closest power of 2 from n
+            num = 2*(n - cp) + 1;
         }
 
         denom = (int) Math.pow(2, exp);
-
-        System.out.print("" + (int) num + "/" + (int) denom);
-        if (debug != 0) {
-            System.out.print("    " + debug);
-        }
-        System.out.println();
 
         return num/denom * 360;
     }
