@@ -1,7 +1,7 @@
+package database;
 import java.util.*;
 import java.awt.Color;
 import java.sql.*;
-package color;
 
 /*
 * This class will build a list of Flight objects, which contains the 
@@ -11,8 +11,7 @@ package color;
 * @author Spencer Bialt
 * @date  4/15/2016
 */
-private class FlightBuilder
-
+public class FlightBuilder
 {
 	private LinkedList<Flight> flightList;
 	private LinkedList<Query> queryList;
@@ -25,8 +24,7 @@ private class FlightBuilder
 	* Constructor for FlightBuilder. Will create a list of Flight objects
 	* that have a start point, end point, and color 
 	*/
-	private FlightBuilder(LinkedList<Query> _queryList)
-	{
+	private FlightBuilder(LinkedList<Query> _queryList) throws SQLException {
 		//Prepare the list of queries for iteration
 		queryList = _queryList;
 		ListIterator<Query> iterator = queryList.listIterator();

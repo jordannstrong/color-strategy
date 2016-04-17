@@ -1,6 +1,5 @@
-import javax.swing.*;	
-import java.util.*;
-package color;
+package database;
+import java.util.LinkedList;
 
 /* This class will serve as the User Interface for 
 * selecting which flights the user wishes to visualize
@@ -8,7 +7,7 @@ package color;
 *@author Spencer Bialt
 *@date 04/10/2016 
 */
-private class ParameterChooser
+public class ParameterChooser
 {
 	private LinkedList<Parameter> parameterList;
 	

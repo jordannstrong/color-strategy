@@ -1,4 +1,4 @@
-package color;
+package database;
 import java.awt.Color;
 
 /*
@@ -11,50 +11,50 @@ import java.awt.Color;
 */
 
 
-public class Flight
+public class Parameter
 {
 	private String value;
 	private String name;
 	private Color color;
 
 	//Constructor
-	public Flight()
+	public Parameter()
 	{
 
 	}
 	
 	//Getter for value field
-	public getParameterValue()
+	public String getParameterValue()
 	{
 		return value;
 	}
 
 	//Setter for value field
-	public setParameterValue(String _value)
+	public void setParameterValue(String _value)
 	{
 		value = _value;
 	}
 
 	//Getter for name field
-	public getParameterName()
+	public String getParameterName()
 	{
 		return name;
 	}
 
 	//Setter for name field
-	public setParameterName(String _name)
+	public void setParameterName(String _name)
 	{
 		name = _name;
 	}
 
 		//Getter for color field
-	public getParameterColor()
+	public Color getParameterColor()
 	{
 		return color;
 	}
 
 	//Setter for startPoint field
-	public setParameterColor(Color color)
+	public void setParameterColor(Color _color)
 	{
 		color = _color;
 	}

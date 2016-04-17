@@ -1,4 +1,4 @@
-package color;
+package database;
 import java.awt.Color;
 
 /*
@@ -23,25 +23,25 @@ public class Query
 	
 
 	//Getter for query field
-	public getQuery()
+	public String getQuery()
 	{
 		return query;
 	}
 
 	//Setter for query field
-	public setQuery(String _query)
+	public void setQuery(String _query)
 	{
 		query = _query;
 	}
 
 		//Getter for color field
-	public getColor()
+	public Color getColor()
 	{
 		return color;
 	}
 
 	//Setter for startPoint field
-	public setColor(Color color)
+	public void setColor(Color _color)
 	{
 		color = _color;
 	}

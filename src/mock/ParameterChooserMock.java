@@ -1,6 +1,7 @@
-import javax.swing.*;	
-import java.util.*;
-package color;
+package mock;
+
+import java.lang.reflect.Parameter;
+import java.util.LinkedList;
 
 /* This class will serve as the User Interface for 
 * selecting which flights the user wishes to visualize
@@ -8,12 +9,12 @@ package color;
 *@author Spencer Bialt
 *@date 04/10/2016 
 */
-private class ParameterChooser
+public class ParameterChooserMock
 {
 	private LinkedList<Parameter> parameterList;
 
 	//Must be initialized with the 
-	protected ParameterChooser(LinkedList<Parameter> _parameterList)
+	protected ParameterChooserMock(LinkedList<Parameter> _parameterList)
 	{
 		//Prepare parameter list for iteration
 		

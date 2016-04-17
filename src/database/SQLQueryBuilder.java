@@ -1,6 +1,6 @@
+package database;
 import java.util.*;
 import java.awt.Color;
-package color;
 
 /*
 * This class will build a list of SQLQuery objects, which stores
@@ -9,8 +9,7 @@ package color;
 * @author Spencer Bialt
 * @date  4/15/2016
 */
-private class SQlQueryBuilder
-
+public class SQLQueryBuilder
 {
 	private LinkedList<Parameter> parameterList;
 	private LinkedList<Query> queryList;
@@ -40,7 +39,7 @@ private class SQlQueryBuilder
 			
 			//Now build the query object
 			Query queryObject = new Query();
-			String query = "select * from " + tableName " where "; + name + " = '" + value + "'";
+			String query = "select * from " + tableName + " where " + name + " = '" + value + "'";
 			queryObject.setQuery(query);
 			queryObject.setColor(color);
 

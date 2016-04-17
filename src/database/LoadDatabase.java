@@ -1,6 +1,6 @@
+package database;
 import java.sql.*;
 import java.util.*;
-package color;
 
 /*
 * This class query an OracleDB for it's column titles.
@@ -9,8 +9,7 @@ package color;
 * @author Spencer Bialt
 * @date  3/31/2016
 */
-private class LoadDatabase
-
+public class LoadDatabase
 {
 	private String tableName;
 	private String url;
@@ -21,10 +20,9 @@ private class LoadDatabase
 	* Constructor for LoadDatabase. Will create a SQL connection,
 	* query for the Column titles, and return them as a list.
 	*/
-	private LoadDatabase()
-	{
+	private LoadDatabase() throws SQLException {
 		
-		columnList = new LinkedList<Column>();
+		columnList = new LinkedList<>();
 		//Connection URL, ID and tableName provided by Chu Yao
 		url = "jdbc:oracle:thin:@//localhost:1521/cablocal";
 		conn = DriverManager.getConnection(url, "uret01", "rowan");
@@ -52,7 +50,7 @@ private class LoadDatabase
 	}
 
 	//@return the list of columns populated by the LoadDatabase constructor
-	public getColumnList()
+	public LinkedList getColumnList()
 	{
 		return columnList;
 	}

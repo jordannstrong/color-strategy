@@ -1,4 +1,4 @@
-package color;
+package database;
 import java.awt.Color;
 
 /*
@@ -24,37 +24,37 @@ public class Flight
 	}
 	
 	//Getter for startPoint field
-	public getStartPoint()
+	public String getStartPoint()
 	{
 		return startPoint;
 	}
 
 	//Setter for startPoint field
-	public setStartPoint(String _startPoint)
+	public void setStartPoint(String _startPoint)
 	{
 		startPoint = _startPoint;
 	}
 
 	//Getter for endPoint field
-	public getEndPoint()
+	public String getEndPoint()
 	{
 		return endPoint;
 	}
 
 	//Setter for endPoint field
-	public setEndPoint(String _endPoint)
+	public void setEndPoint(String _endPoint)
 	{
 		endPoint = _endPoint;
 	}
 
 		//Getter for color field
-	public getColor()
+	public Color getColor()
 	{
 		return color;
 	}
 
 	//Setter for startPoint field
-	public setColor(Color color)
+	public void setColor(Color _color)
 	{
 		color = _color;
 	}

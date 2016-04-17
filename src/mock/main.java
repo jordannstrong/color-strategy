@@ -1,4 +1,4 @@
-package color;
+package mock;
 
 class main {
     public static void main(String[] args)
