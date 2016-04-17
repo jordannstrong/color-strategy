@@ -23,25 +23,25 @@ public class Flight
 
 	}
 	
-	//Getter for startPoint field
+	//Getter for value field
 	public getParameterValue()
 	{
 		return value;
 	}
 
-	//Setter for startPoint field
+	//Setter for value field
 	public setParameterValue(String _value)
 	{
 		value = _value;
 	}
 
-	//Getter for endPoint field
+	//Getter for name field
 	public getParameterName()
 	{
 		return name;
 	}
 
-	//Setter for endPoint field
+	//Setter for name field
 	public setParameterName(String _name)
 	{
 		name = _name;
