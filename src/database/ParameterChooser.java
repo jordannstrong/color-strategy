@@ -11,7 +11,7 @@ package color;
 private class ParameterChooser
 {
 	private LinkedList<Parameter> parameterList;
-
+	
 	//Must be initialized with the 
 	protected ParameterChooser(LinkedList<Parameter> _parameterList)
 	{
