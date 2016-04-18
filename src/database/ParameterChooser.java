@@ -31,7 +31,10 @@ public class ParameterChooser
 		panel.setBounds(0, 0, 400, 300);
 
 
-		//iterate through list, create a string [] of the columns for the JComboBoxes
+		/*
+		iterate through list, create a string [] of the columns for the
+		* JComboBoxes
+		* */
 		String[] names = new String[columnList.size()];
 		String[] values = new String[columnList.size()];
 		int count = 0;
