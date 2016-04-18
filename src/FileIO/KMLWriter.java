@@ -12,13 +12,15 @@ import flightData.Flight;
 import org.w3c.dom.*;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
+
+import java.awt.Color;
 
 /**
  * Created by Kevin on 4/16/2016.
  *
  * Class for writing KML files to visualize flight paths. KML filenames end in '.kml' and can be opened by
- * Google Earth. 
+ * Google Earth.
  */
 public class KMLWriter {
 
@@ -31,10 +33,9 @@ public class KMLWriter {
      * Main driver for testing.
      */
     public static void main(String[] args) {
-        KMLWriter k = new KMLWriter(null);
+        KMLWriter k = new KMLWriter(getTestFlights());
         k.toFile("TestFile.kml");
     }
-
     public KMLWriter(Flight[] flights) {
         this.flights = flights;
 
@@ -55,7 +56,9 @@ public class KMLWriter {
             openElement.setTextContent("1");
             documentElement.appendChild(openElement);
 
-            addTestStyleElements();
+            for (Flight f : flights) {
+                addFlightPathElement(f);
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -75,6 +78,63 @@ public class KMLWriter {
         addStyleElement("redStyle", "ff0000ff", "4");
         addStyleElement("blueStyle", "ffff0000", "4");
         addStyleElement("greenStyle", "ff00ff00", "4");
+    }
+
+    //TODO: Remove, for testing only
+    private static Flight[] getTestFlights() {
+        List<double[]> testCoords = new ArrayList<double[]>();
+        double[] first = new double[]{
+                -74.2, 40.0, 3230
+        };
+        double[] second = new double[]{
+                -78.2, 39.3, 10121
+        };
+        double[] third = new double[]{
+                -82.9, 38.4, 10656
+        };
+        testCoords.add(first);
+        testCoords.add(second);
+        testCoords.add(third);
+
+        List<double[]> testCoords2 = new ArrayList<double[]>();
+        double[] first2 = new double[] {
+                -73.75, 40.5, 1000,
+        };
+        double[] second2 = new double[] {
+                -75.3,  39.0, 8000
+        };
+        double[] third2 = new double[] {
+                -79.6, 37.5, 10000
+        };
+        testCoords2.add(first2);
+        testCoords2.add(second2);
+        testCoords2.add(third2);
+
+        List<double[]> testCoords3 = new ArrayList<double[]>();
+        double[] first3 = new double[] {
+                -74.75, 40.2, 7000,
+        };
+        double[] weird = new double[] {
+                -76.8, 35.6, 11000
+        };
+        double[] second3 = new double[] {
+                -81.3,  33.0, 11231
+        };
+        double[] third3 = new double[] {
+                -82.6, 30.5, 11323
+        };
+        testCoords3.add(first3);
+        testCoords3.add(weird);
+        testCoords3.add(second3);
+        testCoords3.add(third3);
+
+        Flight[] sampleFlights = new Flight[]{
+                new Flight("", testCoords, Color.RED),
+                new Flight("", testCoords2, Color.BLUE),
+                new Flight("", testCoords3, Color.PINK)
+        };
+
+        return sampleFlights;
     }
 
     private void addStyleElement(String styleID, String colorValue, String width) {
@@ -102,11 +162,11 @@ public class KMLWriter {
         //chcek if the color style element has already been created, and if not create it
         String styleID = "" + flight.getPathColor().getRGB();
         if (doc.getElementById(styleID) == null) {
-            //addStyleElement(styleID, ); TODO
+            addStyleElement(styleID, flight.getKMLColor(), "4");
         }
 
         Element styleUrlElement = doc.createElement("styleUrl");
-        styleUrlElement.setTextContent("" + flight.getPathColor().getRGB());
+        styleUrlElement.setTextContent(styleID);
         placemarkElement.appendChild(styleUrlElement);
 
         Element lineStringElement = doc.createElement("LineString");

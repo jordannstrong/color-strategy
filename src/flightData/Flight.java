@@ -96,6 +96,12 @@ public class Flight {
         return pathColor;
     }
 
+    public String getKMLColor() {
+        String sRGB = Integer.toHexString(pathColor.getRGB());
+
+        return sRGB.substring(0, 2) + sRGB.substring(6, 8) + sRGB.substring(4, 6) + sRGB.substring(2, 4);
+    }
+
     public List<double[]> getCoordinateList() {
         return coordinateList;
     }
