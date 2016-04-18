@@ -22,7 +22,7 @@ public class ColumnChooser
 
 		//Set up frame with scrollbar
 		JFrame frame = new JFrame("Select Database Columns");
-		JScrollPane scrollPane = new JScrollPane(frame);
+		JScrollPane scrollPane = new JScrollPane();
 		scrollPanel.setLayout(null);
 		scrollPanel.setBounds(0, 0, 300, 300);
 
