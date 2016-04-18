@@ -27,8 +27,6 @@ public class KMLWriter {
 	private Document doc;
 	private Element documentElement;
 
-	private Flight[] flights;
-
 	/**
 	 * Main driver for testing.
 	 */
@@ -37,8 +35,6 @@ public class KMLWriter {
 		k.toFile("TestFile.kml");
 	}
 	public KMLWriter(Flight[] flights) {
-		this.flights = flights;
-
 		try {
 			// set up header nodes
 			DocumentBuilderFactory docFactory =
@@ -64,21 +60,6 @@ public class KMLWriter {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void addStyleElements() {
-		String styleID;
-		for (Flight flight : flights) {
-			styleID = "" + flight.getPathColor().getRGB();
-
-		}
-	}
-
-	//TODO: Remove, for testing only
-	private void addTestStyleElements() {
-		addStyleElement("redStyle", "ff0000ff", "4");
-		addStyleElement("blueStyle", "ffff0000", "4");
-		addStyleElement("greenStyle", "ff00ff00", "4");
 	}
 
 	//TODO: Remove, for testing only
@@ -129,17 +110,23 @@ public class KMLWriter {
 		testCoords3.add(second3);
 		testCoords3.add(third3);
 
-		Flight[] sampleFlights = new Flight[]{
+		return new Flight[]{
 				new Flight("", testCoords, Color.RED),
 				new Flight("", testCoords2, Color.BLUE),
 				new Flight("", testCoords3, Color.PINK)
 		};
-
-		return sampleFlights;
 	}
 
-	private void addStyleElement
-            (String styleID, String colorValue, String width) {
+	/**
+	 * Adds the <Style> and <LineStyle> elements that the <LineString> elements point to for color.
+	 * Flights with the same color will point to the same <Style> element.
+	 * @param styleID 		See KML Documentation
+	 * @param colorValue	Color that this style element will define. Must be in format AABBGGRR, where each letter
+	 *                      is a hex digit. A: Alpha (Transparency), B: Blue, G: Green, R: Red
+	 * @param width		Width of the line defined by this style element, in meters. Google Earth readjusts the width
+	 *                  so that lines are visible even when zoomed out. 4 is a good default width.
+     */
+	private void addStyleElement(String styleID, String colorValue, String width) {
 		Element styleElement = doc.createElement("Style");
 		styleElement.setAttribute("id", styleID);
 		documentElement.appendChild(styleElement);
@@ -157,6 +144,12 @@ public class KMLWriter {
 
 	}
 
+	/**
+	 * Add elements to working KML file that define a flight path. Creates and appends both the LineString element and
+	 * the LineStyle element. For a given flight, the method will attempt to find an existing LineStyle element of the
+	 * same color.
+	 * @param flight The flight to be added to the KML file.
+     */
 	private void addFlightPathElement(Flight flight) {
 		Element placemarkElement = doc.createElement("Placemark");
 		documentElement.appendChild(placemarkElement);
@@ -167,7 +160,7 @@ public class KMLWriter {
         * */
 		String styleID = "" + flight.getPathColor().getRGB();
 		if (doc.getElementById(styleID) == null) {
-			addStyleElement(styleID, flight.getKMLColor(), "4");
+			addStyleElement(styleID, flight.getKMLColor(), "4"); // 4 works well as a default width
 		}
 
 		Element styleUrlElement = doc.createElement("styleUrl");
@@ -192,6 +185,10 @@ public class KMLWriter {
 		lineStringElement.appendChild(coordinatesElement);
 	}
 
+	/**
+	 * Generates KML File populated with the flight track information passed into this KMLWriter instance.
+	 * @param fileName Full path of the file.
+     */
 	public void toFile(String fileName) {
 		File kmlFile = new File(fileName);
 
