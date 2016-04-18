@@ -19,8 +19,5 @@ public class Controller
 		columnChooser = new ColumnChooser(loadDB.getColumnList());
 		parameterChooser = new ParameterChooser(columnChooser.getSelectedColumnList());
 		sqlQueryBuilder = new SQLQueryBuilder(parameterChooser.getParameterList());
-		
-
-		
 	}
 }

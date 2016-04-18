@@ -20,8 +20,8 @@ public class LoadDatabase
 	* Constructor for LoadDatabase. Will create a SQL connection,
 	* query for the Column titles, and return them as a list.
 	*/
-	private LoadDatabase() throws SQLException {
-		
+	private LoadDatabase() throws SQLException
+	{
 		columnList = new LinkedList<>();
 		//Connection URL, ID and tableName provided by Chu Yao
 		url = "jdbc:oracle:thin:@//localhost:1521/cablocal";
@@ -42,7 +42,6 @@ public class LoadDatabase
 			temp.setType(columnSet.getString("DATA_TYPE"));
 			columnList.add(temp);
 		}
-
 
 		//Finished storing columns, close database connection
 		stmt.close();
