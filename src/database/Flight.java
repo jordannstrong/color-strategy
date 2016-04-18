@@ -2,9 +2,9 @@ package database;
 import java.awt.Color;
 
 /*
-* This class is a representation of a Flight object that will be written to a KML file.
-* It contains a Color object representing the color it will be set to, along with a string
-* representation of its starting and ending coordinates.
+* This class is a representation of a Flight object that will be written to a
+* KML file. It contains a Color object representing the color it will be set
+*to, along with a string representation of its starting and ending coordinates.
 *
 * @author Spencer Bialt
 * @date  4/02/2016

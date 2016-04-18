@@ -6,7 +6,8 @@ import java.util.List;
 
 /**
  * Distance calculator to tell which flights are close together.
- * Is now being treated as an extra feature, so it will remain as an empty class for now.
+ * Is now being treated as an extra feature, so it will remain as an empty
+ * class for now.
  */
 
 public class DistanceCalculator
@@ -32,12 +33,15 @@ public class DistanceCalculator
 
 	/**
 	 *
-	 * @return The minimum distance between two points on two different flight tracks.
+	 * @return The minimum distance between two points on two different flight
+	 * tracks.
 	 */
 	private double minDist(Flight f1, Flight f2)
 	{
-		double startDistance =  distance(f1.getStartCoordinate(), f2.getStartCoordinate());
-		double endDistance   =  distance(f1.getEndCoordinate(), f2.getEndCoordinate());
+		double startDistance =  distance(f1.getStartCoordinate(),
+				f2.getStartCoordinate());
+		double endDistance   =  distance(f1.getEndCoordinate(),
+				f2.getEndCoordinate());
 		return Math.min(startDistance, endDistance);
 	}
 
@@ -54,6 +58,7 @@ public class DistanceCalculator
 			throw new IllegalArgumentException();
 		}
 
-		return Math.sqrt(Math.pow(pointB[0]-pointA[0], 2) + Math.pow(pointB[1] - pointA[1], 2));
+		return Math.sqrt(Math.pow(pointB[0]-pointA[0], 2) +
+				Math.pow(pointB[1] - pointA[1], 2));
 	}
 }

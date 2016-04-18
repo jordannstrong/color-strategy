@@ -30,7 +30,9 @@ public class ColorAssigner
 			{
 				for(int B = bMin; B <= bMax ; B++)
 				{
-				if(dist == Math.pow( (f1.L - L), 2 ) + Math.pow( (f1.A - A), 2 ) + Math.pow( (f1.B - B), 2 ));
+				if(dist == Math.pow( (f1.L - L), 2 ) +
+						Math.pow( (f1.A - A), 2 )
+				 + Math.pow( (f1.B - B), 2 ));
 					{
 						return Conversion.LABtoRGB( L, A, B );
 					}
@@ -46,19 +48,25 @@ public class ColorAssigner
 	}*/
 
 	/**
-	 * Method for getting the hue value of the best color for the given iteration number.
+	 * Method for getting the hue value of the best color for the given
+	 * iteration number.
 	 *
 	 * The hue value is part of the HSL color scheme.
 	 *
-	 * The method returns a hue of 0 (red) on n = 0, then its complementary color at a hue of 180 (green) on n = 1,
-	 * then the next base color at a hue of 90 (yellow) at n = 2, followed by its complement at n = 3, and so on and so
-	 * forth. Essentially, the color wheel is split into halves, then quarters, then eighths, etc. to ensure that each
-	 * color is visually distinguishable from the previous color. At a certain point, the colors chosen will no longer
-	 * be distinguishable from the other colors. We can change the method to use darker/lighter shades, but for now
-	 * this is a limitation of the program. The best way to ensure the biggest possible range of distinguishable colors
-	 * is to use the LAB color space and choose the colors based on the distance of the edges.
+	 * The method returns a hue of 0 (red) on n = 0, then its complementary
+	 * color at a hue of 180 (green) on n = 1, then the next base color at a
+	 * hue of 90 (yellow) at n = 2, followed by its complement at n = 3, and so
+	 * on and so forth. Essentially, the color wheel is split into halves, then
+	 * quarters, then eighths, etc. to ensure that each color is visually
+	 * distinguishable from the previous color. At a certain point, the colors
+	 * chosen will no longer be distinguishable from the other colors. We can
+	 * change the method to use darker/lighter shades, but for now this is a
+	 * limitation of the program. The best way to ensure the biggest possible
+	 * range of distinguishable colors is to use the LAB color space and choose
+	 * the colors based on the distance of the edges.
 	 *
-	 * Note that the method does not provide the other 2 values of HSL, Saturation and Lightness.
+	 * Note that the method does not provide the other 2 values of HSL,
+	 * Saturation and Lightness.
 	 * @param n the nth group to color
 	 * @return hue value (h) of color.
 	 */
@@ -83,7 +91,8 @@ public class ColorAssigner
 		else
 		{
 			exp = (int) Math.ceil(log);
-			int cp = (int) Math.pow(2, Math.floor(log)); // find closest power of 2 from n
+			// find closest power of 2 from n
+			int cp = (int) Math.pow(2, Math.floor(log));
 			num = 2*(n - cp) + 1;
 		}
 

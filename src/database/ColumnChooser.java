@@ -32,7 +32,8 @@ public class ColumnChooser
 		//Create action listener that will handle items being checked
 		    ActionListener actionListener = new ActionListener() {
       		public void actionPerformed(ActionEvent actionEvent) {
-        	AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+        	AbstractButton abstractButton =
+					(AbstractButton) actionEvent.getSource();
         	boolean selected = abstractButton.getModel().isSelected();
         	if(!selected)
         	{
@@ -69,8 +70,9 @@ public class ColumnChooser
 		{
 			//Create a new JCheckbox with the column title and type displayed
 			Column temp = iterator.next();
-			String checkBoxString = temp.getName() + "(" + temp.getType() + ")";
-			JCheckBox checkBox = new JCheckBox(checkBoxString, true);			
+			String checkBoxString = temp.getName() + "(" + temp.getType() +
+					")";
+			JCheckBox checkBox = new JCheckBox(checkBoxString, true);
 			checkBox.setBounds(10, currentYPos, 300, 30);
 			currentYPos += 25;
 

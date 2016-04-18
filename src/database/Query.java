@@ -2,8 +2,8 @@ package database;
 import java.awt.Color;
 
 /*
-* This class is a representation of a SQL Query, that also stores the associated color
-* for Flight objects matching the Query. 
+* This class is a representation of a SQL Query, that also stores the
+* associated color for Flight objects matching the Query.
 *
 * @author Spencer Bialt
 * @date  4/10/2016

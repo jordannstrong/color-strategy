@@ -33,7 +33,10 @@ public class FlightBuilder
 		url = "jdbc:oracle:thin:@//localhost:1521/cablocal";
 		conn = DriverManager.getConnection(url, "uret01", "rowan");
 
-		//Iterator through query list, build Flight objects and add them to flightList
+		/*
+		* Iterator through query list, build Flight objects and add them to
+		* flightList
+		*/
 		while(iterator.hasNext())
 		{	
 			//First need to make the query to the SQL database
@@ -41,7 +44,10 @@ public class FlightBuilder
 			String query = temp.getQuery();
 			ResultSet flightData = stmt.executeQuery(query);
 
-			//Now need to build the Flight object from the resulting information
+			/*
+			* Now need to build the Flight object from the resulting
+			* information
+			* */
 
 			if(flightData.next())
 			{

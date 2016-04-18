@@ -56,7 +56,8 @@ public class FlightBuilder
 		// containing information that we want. IE: All Flights with startPoint
 		// of PHL (Philly airport).
 
-		//flightList.add(new Flight(String flightID, String startPoint, String endPoint, Color color))
+		//flightList.add(new Flight
+				(String flightID, String startPoint, String endPoint, Color color))
 
 		return this.flightList;
 	}// end getFlightList

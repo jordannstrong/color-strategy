@@ -2,9 +2,10 @@ package database;
 import java.awt.Color;
 
 /*
-* This class is a representation of a Parameter object that will be used to sort the matching Flights.
-* It contains a Color object representing the color any objects matching that parameter will be set to,
-* and two string fields that represent its value and name. 
+* This class is a representation of a Parameter object that will be used to
+* sort the matching Flights. It contains a Color object representing the color
+* any objects matching that parameter will be set to, and two string fields
+* that represent its value and name.
 *
 * @author Spencer Bialt
 * @date  4/02/2016

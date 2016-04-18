@@ -28,7 +28,10 @@ public class SQLQueryBuilder
 		//tableName provided by Chu Yao
 		tableName = "ac_listrw15150805";
 
-		//Iterator through parameter list, build query objects and add them to queryList
+		/*
+		* Iterator through parameter list, build query objects and add them to
+		* queryList
+		* */
 		while(iterator.hasNext())
 		{	
 			//First get all the information from the parameter
@@ -39,7 +42,8 @@ public class SQLQueryBuilder
 			
 			//Now build the query object
 			Query queryObject = new Query();
-			String query = "select * from " + tableName + " where " + name + " = '" + value + "'";
+			String query = "select * from " + tableName + " where " + name +
+					" = '" + value + "'";
 			queryObject.setQuery(query);
 			queryObject.setColor(color);
 
