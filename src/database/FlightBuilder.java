@@ -19,21 +19,24 @@ public class FlightBuilder
 	private Connection conn;
 	private Statement stmt;
 
-
 	/*
 	* Constructor for FlightBuilder. Will create a list of Flight objects
 	* that have a start point, end point, and color 
 	*/
-	private FlightBuilder(LinkedList<Query> _queryList) throws SQLException {
+	private FlightBuilder(LinkedList<Query> _queryList) throws SQLException
+	{
 		//Prepare the list of queries for iteration
 		queryList = _queryList;
 		ListIterator<Query> iterator = queryList.listIterator();
 
-		//Prepare the connection		
+		//Prepare the connection
 		url = "jdbc:oracle:thin:@//localhost:1521/cablocal";
 		conn = DriverManager.getConnection(url, "uret01", "rowan");
 
-		//Iterator through query list, build Flight objects and add them to flightList
+		/*
+		* Iterator through query list, build Flight objects and add them to
+		* flightList
+		*/
 		while(iterator.hasNext())
 		{	
 			//First need to make the query to the SQL database
@@ -41,7 +44,10 @@ public class FlightBuilder
 			String query = temp.getQuery();
 			ResultSet flightData = stmt.executeQuery(query);
 
-			//Now need to build the Flight object from the resulting information
+			/*
+			* Now need to build the Flight object from the resulting
+			* information
+			* */
 
 			if(flightData.next())
 			{

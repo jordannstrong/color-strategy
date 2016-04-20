@@ -1,6 +1,5 @@
 package color;
 
-import FileIO.KMLWriter;
 import flightData.Flight;
 
 import java.awt.*;
@@ -10,16 +9,9 @@ public class ColorAssigner {
     public static void main(String[] args) {
         ColorAssigner ca = new ColorAssigner();
 
-        Flight[] flights = KMLWriter.getTestFlights();
-
-        int i = 0;
-        for (Flight f : flights) {
-            f.setPathColor(new Color(getColor(i)));
-            i++;
+        for (int i = 0; i < 35; i++) {
+            System.out.println("" + ca.getHue(i));
         }
-
-        KMLWriter kw = new KMLWriter(flights);
-        kw.toFile("TestFile.kml");
     }
 
     /**

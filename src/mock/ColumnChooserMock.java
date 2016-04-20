@@ -33,7 +33,8 @@ public class ColumnChooserMock
 		{
 			//Create a new JCheckbox with the column title and type displayed
 			Column temp = iterator.next();
-			String checkBoxString = temp.getName() + " (" + temp.getType() + ")";
+			String checkBoxString = temp.getName() +
+					" (" + temp.getType() + ")";
 			JCheckBox checkBox = new JCheckBox(checkBoxString, true);
 
 			//Add the check to the frame

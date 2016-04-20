@@ -11,19 +11,21 @@ import java.util.List;
  * the color of the flight path, as well as a list of all the
  * datapoints along the flight's path.
  */
-public class Flight {
-    private String flightID;
-    private List<double[]> coordinateList; // where each coordinate triple is formatted: lon,lat,alt
-    private Color pathColor;
+public class Flight
+{
+	private String flightID;
+	// where each coordinate triple is formatted: lon,lat,alt
+	private List<double[]> coordinateList;
+	private Color pathColor;
 
 
-    /**
-     * Main method if we need one. Right now it just prints out "Hello" like it
-     * does in the DistanceCalculator
-     */
-    public static void main(String[] args) {
-        System.out.println("Hello.");
-    }// end Main
+	/**
+	 * Main method if we need one. Right now it just prints out "Hello" like it
+	 * does in the DistanceCalculator
+	 */
+	public static void main(String[] args) {
+		System.out.println("Hello.");
+	}// end Main
 
 
     /**
@@ -35,16 +37,18 @@ public class Flight {
         //this.pathColor = null;
     }//end Flight
 
-    /**
-     *
-     * @param flightID
-     * @param coordinateList List of coordinate triples where each triple is of the form lon,lat,alt
-     * @param pathColor
-     */
-    public Flight(String flightID, List<double[]> coordinateList, Color pathColor){
-        this.flightID = flightID;
-        this.coordinateList = coordinateList;
-        this.pathColor = pathColor;
+	/**
+	 *
+	 * @param flightID
+	 * @param coordinateList List of coordinate triples where each triple is of
+	 *                       the form lon,lat,alt
+	 * @param pathColor
+	 */
+	public Flight(String flightID, List<double[]> coordinateList,
+				  Color pathColor){
+		this.flightID = flightID;
+		this.coordinateList = coordinateList;
+		this.pathColor = pathColor;
 
     }// end Flight
 
@@ -59,14 +63,14 @@ public class Flight {
         this.pathColor = pathColor;
     }// end Flight*/
 
-    /**
-     * Mutator method to set the FlightID field of the Flight
-     *
-     * @param flightID A String containing the flight ID value
-     */
-    public void setFlightID(String flightID){
-        this.flightID = flightID;
-    }// end setFlightID
+	/**
+	 * Mutator method to set the FlightID field of the Flight
+	 *
+	 * @param flightID A String containing the flight ID value
+	 */
+	public void setFlightID(String flightID){
+		this.flightID = flightID;
+	}// end setFlightID
 
     /**
      * Mutator method to set the startPoint field of the Flight
@@ -103,8 +107,9 @@ public class Flight {
     public String getKMLColor() {
         String sRGB = Integer.toHexString(pathColor.getRGB());
 
-        return sRGB.substring(0, 2) + sRGB.substring(6, 8) + sRGB.substring(4, 6) + sRGB.substring(2, 4);
-    }
+		return sRGB.substring(0, 2) + sRGB.substring(6, 8) +
+				sRGB.substring(4, 6) + sRGB.substring(2, 4);
+	}
 
     public List<double[]> getCoordinateList() {
         return coordinateList;
