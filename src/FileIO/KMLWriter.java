@@ -81,7 +81,7 @@ public class KMLWriter {
     }
 
     //TODO: Remove, for testing only
-    private static Flight[] getTestFlights() {
+    public static Flight[] getTestFlights() {
         List<double[]> testCoords = new ArrayList<double[]>();
         double[] first = new double[]{
                 -74.2, 40.0, 3230

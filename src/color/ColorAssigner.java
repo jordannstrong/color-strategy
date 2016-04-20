@@ -1,5 +1,6 @@
 package color;
 
+import FileIO.KMLWriter;
 import flightData.Flight;
 
 import java.awt.*;
@@ -9,9 +10,25 @@ public class ColorAssigner {
     public static void main(String[] args) {
         ColorAssigner ca = new ColorAssigner();
 
-        for (int i = 0; i < 35; i++) {
-            System.out.println("" + ca.getHue(i));
+        Flight[] flights = KMLWriter.getTestFlights();
+
+        int i = 0;
+        for (Flight f : flights) {
+            f.setPathColor(new Color(getColor(i)));
+            i++;
         }
+
+        KMLWriter kw = new KMLWriter(flights);
+        kw.toFile("TestFile.kml");
+    }
+
+    /**
+     * Returns the color that should be assigned to the nth flight.
+     * @param n the nth flight
+     * @return A color in RGB color scheme.
+     */
+    public static int getColor(int n) {
+        return Color.HSBtoRGB((float) getHue(n), 1, 1);
     }
 
     /*private String color(Flight f1, Flight f2) {
@@ -63,7 +80,7 @@ public class ColorAssigner {
      * @param n the nth group to color
      * @return hue value (h) of color.
      */
-    private double getHue(int n) {
+    private static double getHue(int n) {
         if (n == 0) {
             return 0;
         }
@@ -86,6 +103,6 @@ public class ColorAssigner {
 
         denom = (int) Math.pow(2, exp);
 
-        return num/denom * 360;
+        return num/denom ;
     }
 }

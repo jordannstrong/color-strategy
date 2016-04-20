@@ -96,6 +96,10 @@ public class Flight {
         return pathColor;
     }
 
+    public void setPathColor(Color color) {
+        pathColor = color;
+    }
+
     public String getKMLColor() {
         String sRGB = Integer.toHexString(pathColor.getRGB());
 
