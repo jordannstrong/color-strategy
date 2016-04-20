@@ -127,16 +127,32 @@ public class KMLWriter {
         double[] third3 = new double[] {
                 -82.6, 30.5, 11323
         };
+
+        List<double[]> testCoords4 = new ArrayList<double[]>();
+        double[] first4 = new double[] {
+                JFK_LON-8, JFK_LAT-2, JFK_ALT
+        };
+        double[] second4 = new double[] {
+                -75.3-8,  39.0-2, 9000
+        };
+        double[] third4 = new double[] {
+                -78.6-8, 37.5-2, 10000
+        };
+
         testCoords3.add(first3);
         testCoords3.add(weird0);
         testCoords3.add(weird);
         testCoords3.add(second3);
         testCoords3.add(third3);
+        testCoords4.add(first4);
+        testCoords4.add(second4);
+        testCoords4.add(third4);
 
         Flight[] sampleFlights = new Flight[]{
-                new Flight("", testCoords, Color.RED),
-                new Flight("", testCoords2, Color.BLUE),
-                new Flight("", testCoords3, Color.PINK)
+                new Flight("", testCoords, null),
+                new Flight("", testCoords2, null),
+                new Flight("", testCoords3, null),
+                new Flight("", testCoords4, null)
         };
 
         return sampleFlights;

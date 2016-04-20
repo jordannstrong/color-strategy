@@ -5,6 +5,7 @@ import flightData.Flight;
 
 import java.awt.*;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class ColorAssigner {
     /**
@@ -15,10 +16,10 @@ public class ColorAssigner {
     public static void main(String[] args) {
         Flight[] flights = KMLWriter.getTestFlights();
 
-        int i = 0;
+        int i = 50;
         for (Flight f : flights) {
             f.setPathColor(new Color(getColor(i)));
-            i++;
+            i ++;
         }
 
         KMLWriter k = new KMLWriter(flights);
@@ -31,7 +32,8 @@ public class ColorAssigner {
      * @return A color in RGB color scheme.
      */
     public static int getColor(int n) {
-        return Color.HSBtoRGB((float) getHue(n), 1, 1);
+        Random rand = new Random();
+        return Color.HSBtoRGB((float) getHue(n), rand.nextFloat() % 0.5f + 0.5f, rand.nextFloat() % 0.4f + 0.6f);
     }
 
     /*private String color(Flight f1, Flight f2) {
