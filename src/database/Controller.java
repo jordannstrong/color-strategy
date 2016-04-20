@@ -7,10 +7,10 @@ import java.util.*;
 */
 public class Controller
 {
-	private LoadDatabase loadDB();
-	private ColumnChooser columnChooser();
-	private ParameterChooser parameterChooser();
-	private SQLQueryBuilder sqlQueryBuilder();
+	private LoadDatabase loadDB;
+	private ColumnChooser columnChooser;
+	private ParameterChooser parameterChooser;
+	private SQLQueryBuilder sqlQueryBuilder;
 
 
 	private Controller()

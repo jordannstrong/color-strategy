@@ -1,17 +1,28 @@
 package color;
 
+import FileIO.KMLWriter;
 import flightData.Flight;
 
 import java.awt.*;
 import java.util.LinkedList;
 
 public class ColorAssigner {
+    /**
+     * Main driver for testing. Currently generates a few dummy flights and saves it to a KML file in this working
+     * directory.
+     * @param args
+     */
     public static void main(String[] args) {
-        ColorAssigner ca = new ColorAssigner();
+        Flight[] flights = KMLWriter.getTestFlights();
 
-        for (int i = 0; i < 35; i++) {
-            System.out.println("" + ca.getHue(i));
+        int i = 0;
+        for (Flight f : flights) {
+            f.setPathColor(new Color(getColor(i)));
+            i++;
         }
+
+        KMLWriter k = new KMLWriter(flights);
+        k.toFile("TestFile.kml");
     }
 
     /**

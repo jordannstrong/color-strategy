@@ -73,21 +73,22 @@ public class KMLWriter {
         }
     }
 
-    //TODO: Remove, for testing only
-    private void addTestStyleElements() {
-        addStyleElement("redStyle", "ff0000ff", "4");
-        addStyleElement("blueStyle", "ffff0000", "4");
-        addStyleElement("greenStyle", "ff00ff00", "4");
-    }
-
-    //TODO: Remove, for testing only
+    /**
+     * TODO: Remove, for testing only
+     * Dummy flights I came up with just to test the KMLWriter and ColorAssigner. These flight paths are overtly
+     * simplistic and cannot be used for full project testing.
+     */
     public static Flight[] getTestFlights() {
+        final double JFK_LON = -73.7782;
+        final double JFK_LAT = 40.6412;
+        final double JFK_ALT = 10;
+
         List<double[]> testCoords = new ArrayList<double[]>();
         double[] first = new double[]{
-                -74.2, 40.0, 3230
+                JFK_LON, JFK_LAT, JFK_ALT
         };
         double[] second = new double[]{
-                -78.2, 39.3, 10121
+                -78.2, 39.3, 11121
         };
         double[] third = new double[]{
                 -82.9, 38.4, 10656
@@ -98,10 +99,10 @@ public class KMLWriter {
 
         List<double[]> testCoords2 = new ArrayList<double[]>();
         double[] first2 = new double[] {
-                -73.75, 40.5, 1000,
+                JFK_LON, JFK_LAT, JFK_ALT
         };
         double[] second2 = new double[] {
-                -75.3,  39.0, 8000
+                -75.3,  39.0, 9000
         };
         double[] third2 = new double[] {
                 -79.6, 37.5, 10000
@@ -112,7 +113,10 @@ public class KMLWriter {
 
         List<double[]> testCoords3 = new ArrayList<double[]>();
         double[] first3 = new double[] {
-                -74.75, 40.2, 7000,
+                JFK_LON, JFK_LAT, JFK_ALT
+        };
+        double[] weird0 = new double[] {
+                -74.98, 38.87, 11000
         };
         double[] weird = new double[] {
                 -76.8, 35.6, 11000
@@ -124,6 +128,7 @@ public class KMLWriter {
                 -82.6, 30.5, 11323
         };
         testCoords3.add(first3);
+        testCoords3.add(weird0);
         testCoords3.add(weird);
         testCoords3.add(second3);
         testCoords3.add(third3);
