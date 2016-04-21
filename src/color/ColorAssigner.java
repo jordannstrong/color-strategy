@@ -11,7 +11,6 @@ public class ColorAssigner {
     /**
      * Main driver for testing. Currently generates a few dummy flights and saves it to a KML file in this working
      * directory.
-     * @param args
      */
     public static void main(String[] args) {
         Flight[] flights = KMLWriter.getTestFlights();
@@ -33,7 +32,7 @@ public class ColorAssigner {
      */
     public static int getColor(int n) {
         Random rand = new Random();
-        return Color.HSBtoRGB((float) getHue(n), rand.nextFloat() % 0.5f + 0.5f, rand.nextFloat() % 0.4f + 0.6f);
+        return Color.HSBtoRGB((float) getHue(n), rand.nextFloat() % 0.4f + 0.6f, rand.nextFloat() % 0.4f + 0.6f);
     }
 
     /*private String color(Flight f1, Flight f2) {
@@ -108,6 +107,6 @@ public class ColorAssigner {
 
         denom = (int) Math.pow(2, exp);
 
-        return num/denom ;
+        return num/denom;
     }
 }
