@@ -4,6 +4,7 @@ import FileIO.KMLWriter;
 import flightData.Flight;
 
 import java.awt.*;
+import java.awt.color.ColorSpace;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -108,5 +109,38 @@ public class ColorAssigner {
         denom = (int) Math.pow(2, exp);
 
         return num/denom;
+    }
+
+    /**
+     *
+     * @param x x
+     * @param y y
+     * @param z z
+     * @param radius radius from the center of the sphere to its surface
+     * @return an array containing the x,y,z coordinates of a random point on the suface of the sphere
+     *
+     */
+    public static float[] getPointOnSphere(float x, float y, float z, float radius) {
+        Random rand = new Random();
+        float u = rand.nextFloat() * (1 - .5f) + .5f; // random u between 0 and 1
+        float v = rand.nextFloat(); // random v between 0 and 1
+        float theta = 2 * 3.14159265359f * u;
+        float phi = (float) Math.acos(2 * v - 1);
+
+        float x1 = (float) (x + (radius * Math.sin(phi) * Math.cos(theta)));
+        float y1 = (float) (y + (radius * Math.sin(phi) * Math.sin(theta)));
+        float z1 = (float) (z + (radius * Math.cos(phi)));
+
+        return new float[] {x1, y1, z1};
+
+    }
+
+    public static Color getOpposingColor(Color c, int distance) {
+        ColorSpace labspace = new LABSpace();
+        float[] coords = labspace.fromRGB(c.getRGBColorComponents(null));
+        float[] newCoords = ColorAssigner.getPointOnSphere(coords[0], coords[1], coords[2], distance);
+        float[] newColorRGB = labspace.toRGB(newCoords);
+        Color newColor = new Color(newColorRGB[0], newColorRGB[1], newColorRGB[2]);
+        return newColor;
     }
 }

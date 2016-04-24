@@ -48,19 +48,32 @@ public class LABSpace extends ColorSpace
 	}
 
 	@Override
-	public float[] fromCIEXYZ(float[] colorvalue)
-	{
-		return new float[0]; //TODO:
+	public float[] fromCIEXYZ(float[] colorvalue) {
+		double l = f(colorvalue[1]);
+		double L = 116.0 * l - 16.0;
+		double a = 500.0 * (f(colorvalue[0]) - l);
+		double b = 200.0 * (l - f(colorvalue[2]));
+		return new float[] {(float) L, (float) a, (float) b};
 	}
 
 	@Override
 	public float[] toRGB(float[] colorvalue)
 	{
-		float[] xyz = toCIEXYZ(colorvalue);
+		float[] newValue = new float[3];
+		for (int i = 0; i < 3; i++) {
+			if (colorvalue[i] < getMinValue(i)) {
+				newValue[i] = getMinValue(i);
+			}
+			else if (colorvalue[i] > getMaxValue(i)) {
+				newValue[i] = getMaxValue(i);
+			}
+			else newValue[i] = colorvalue[i];
+		}
+		float[] xyz = toCIEXYZ(newValue);
 		return CIEXYZ.toRGB(xyz);
 	}
 
-	LABSpace()
+	public LABSpace()
 	{
 		super(ColorSpace.TYPE_Lab, 3);
 	}
