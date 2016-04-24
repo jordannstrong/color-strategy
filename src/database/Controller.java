@@ -1,5 +1,5 @@
 package database;
-import java.util.*;
+import java.sql.SQLException;
 
 /*This class will serve as a controller for the other classes.
 *@author Spencer Bialt
@@ -13,8 +13,7 @@ public class Controller
 	private SQLQueryBuilder sqlQueryBuilder;
 
 
-	private Controller()
-	{
+	private Controller() throws SQLException {
 		loadDB = new LoadDatabase();
 		columnChooser = new ColumnChooser(loadDB.getColumnList());
 		parameterChooser =

@@ -19,7 +19,7 @@ public class SQLQueryBuilder
 	* Constructor for SQLQueryBuilder. Will create a list of SQLQuery objects
 	* based on the parameters selected by the user. 
 	*/
-	private SQLQueryBuilder(LinkedList<Parameter> _parameterList)
+	public SQLQueryBuilder(LinkedList<Parameter> _parameterList)
 	{
 		//Prepare the list of perameters for iteration
 		parameterList = _parameterList;

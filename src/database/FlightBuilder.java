@@ -1,7 +1,7 @@
 package database;
-import java.util.*;
-import java.awt.Color;
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 /*
 * This class will build a list of Flight objects, which contains the 
@@ -49,15 +49,15 @@ public class FlightBuilder
 			* information
 			* */
 
+			Flight flight = new Flight();
 			if(flightData.next())
 			{
-				Flight flight = new Flight();
 				flight.setStartPoint(flightData.getString("DEPARTLOC"));
 				flight.setEndPoint(flightData.getString("ENDLOC"));
 			}
 
-			flightObject.setColor(color);
-			flightList.add(flightObject);
+			flight.setColor(color);
+			flightList.add(flight);
 		}
 	}
 

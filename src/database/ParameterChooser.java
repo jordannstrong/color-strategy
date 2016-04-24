@@ -1,5 +1,8 @@
 package database;
+
+import javax.swing.*;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 /* This class will serve as the User Interface for 
 * selecting which flights the user wishes to visualize
@@ -17,8 +20,8 @@ public class ParameterChooser
 	//Must be initialized with the 
 	protected ParameterChooser(LinkedList<Column> _colummList)
 	{
-		nameBoxes = new LinkedList<JComboBox>;
-		valueBoxes = new LinkedList<JComboBox>;
+		nameBoxes = new LinkedList<JComboBox>();
+		valueBoxes = new LinkedList<JComboBox>();
 
 		//Prepare column list for iteration
 		columnList = _colummList;
@@ -53,7 +56,7 @@ public class ParameterChooser
 			JComboBox valueBox = new JComboBox(values);
 			int yPos = 10 + i * 25;
 			nameBox.setBounds(10, yPos, 150, 30);
-			valueBox.setBound(165, yPos, 150, 30);
+			valueBox.setBounds(165, yPos, 150, 30);
 			panel.add(nameBox);
 			panel.add(valueBox);
 		}
@@ -74,17 +77,17 @@ public class ParameterChooser
 		ListIterator nameItty = nameBoxes.listIterator();
 		ListIterator valueItty = valueBoxes.listIterator();
 
-		while(nameItty.hasNext() && valueBoxes.hasNext())
+		while(nameItty.hasNext() && valueItty.hasNext())
 		{
-			JComboBox nameBox = nameItty.next();
-			JComboBox valueBox = valueItty.next();
+			JComboBox nameBox = (JComboBox) nameItty.next();
+			JComboBox valueBox = (JComboBox) valueItty.next();
 
-			String name = String.valueof(nameBox.getSelectedItem());
-			String value = String.valueof(valueBox.getSelectedItem());
+			String name = String.valueOf(nameBox.getSelectedItem());
+			String value = String.valueOf(valueBox.getSelectedItem());
 
 			Parameter param = new Parameter();
-			param.setName(name);
-			param.setValue(value);
+			param.setParameterName(name);
+			param.setParameterValue(value);
 
 			parameterList.add(param);
 		}

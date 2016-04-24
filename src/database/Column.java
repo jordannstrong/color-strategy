@@ -10,6 +10,7 @@ public class Column
 {
 	private String name;
 	private String type;
+	private String value;
 
 	//Constructor
 	public Column()
@@ -39,5 +40,17 @@ public class Column
 	public void setType(String _type)
 	{
 		type = _type;
+	}
+
+	//Getter for value field
+	public String getValue()
+	{
+		return value;
+	}
+
+	//Setter for value field
+	public void setValue(String _value)
+	{
+		value = _value;
 	}
 }

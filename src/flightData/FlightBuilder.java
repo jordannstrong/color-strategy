@@ -57,7 +57,7 @@ public class FlightBuilder
 		// of PHL (Philly airport).
 
 		//flightList.add(new Flight
-				(String flightID, String startPoint, String endPoint, Color color))
+				//(String flightID, String startPoint, String endPoint, Color color));
 
 		return this.flightList;
 	}// end getFlightList
