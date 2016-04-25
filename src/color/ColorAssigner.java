@@ -121,8 +121,9 @@ public class ColorAssigner {
      *
      */
     public static float[] getPointOnSphere(float x, float y, float z, float radius) {
+        ColorSpace labSpace = new LABSpace();
         Random rand = new Random();
-        float u = rand.nextFloat() * (1 - .5f) + .5f; // random u between 0 and 1
+        float u = rand.nextFloat() * .5f + .5f; // random u between 0 and 1
         float v = rand.nextFloat(); // random v between 0 and 1
         float theta = 2 * 3.14159265359f * u;
         float phi = (float) Math.acos(2 * v - 1);
@@ -131,16 +132,37 @@ public class ColorAssigner {
         float y1 = (float) (y + (radius * Math.sin(phi) * Math.sin(theta)));
         float z1 = (float) (z + (radius * Math.cos(phi)));
 
-        return new float[] {x1, y1, z1};
+        float[] array = new float[] {x1, y1, z1};
+        return array;
 
     }
 
     public static Color getOpposingColor(Color c, int distance) {
         ColorSpace labspace = new LABSpace();
         float[] coords = labspace.fromRGB(c.getRGBColorComponents(null));
+        for (float f : coords) {
+            System.out.print(f + ", ");
+        }
+        System.out.println();
         float[] newCoords = ColorAssigner.getPointOnSphere(coords[0], coords[1], coords[2], distance);
+        for (float f : newCoords) {
+            System.out.print(f + ", ");
+        }
+        System.out.println();
+        System.out.println("Before Distance: " + getDistance(coords, newCoords));
         float[] newColorRGB = labspace.toRGB(newCoords);
         Color newColor = new Color(newColorRGB[0], newColorRGB[1], newColorRGB[2]);
+
+        float[] afterCoords = labspace.fromRGB(newColor.getRGBColorComponents(null));
+        System.out.println("After Distance: " + getDistance(coords, afterCoords));
         return newColor;
+    }
+
+    public static float getDistance(float[] pointA, float[] pointB) {
+        float sum = 0;
+        for (int i = 0; i < 3; i++) {
+            sum += Math.pow(pointA[i] - pointB[i], 2);
+        }
+        return (float) Math.sqrt(sum);
     }
 }

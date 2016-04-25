@@ -46,7 +46,6 @@ public class TestColors extends Frame {
     }
 
     public void testLABPicker(Graphics g) {
-        System.out.println("------------------");
         int height = 60;
         ColorSpace ls = new LABSpace();
 
@@ -67,14 +66,20 @@ public class TestColors extends Frame {
         Rectangle rect2 = new Rectangle(0, 2*height, 400, height);
         g.fillRect(0, 2*height, 400, height);*/
 
-        Color prevColor = Color.RED;
-        for (int i = 0; i < 10; i++) {
-            Color newColor = ColorAssigner.getOpposingColor(prevColor, 70);
-            g.setColor(newColor);
-            Rectangle rect3 = new Rectangle(0, (i)*height, 400, height);
-            g.fillRect(0, (i) * height, 400, height);
 
-            prevColor = newColor;
-        }
+            Color prevColor = Color.BLUE;
+            g.setColor(prevColor);
+            Rectangle rect2 = new Rectangle(0, height + 10, 400, height);
+            g.fillRect(0, height + 10, 400, height);
+
+            for (int i = 2; i < 20; i++) {
+                Color newColor = ColorAssigner.getOpposingColor(prevColor, 100);
+                g.setColor(newColor);
+                Rectangle rect3 = new Rectangle(0, i *height + 10, 400, height);
+                g.fillRect(0, i *height + 10, 400, height);
+            }
+
     }
+
+
 }
