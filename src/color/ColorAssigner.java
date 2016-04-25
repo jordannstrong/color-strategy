@@ -123,7 +123,7 @@ public class ColorAssigner {
     public static float[] getPointOnSphere(float x, float y, float z, float radius) {
         ColorSpace labSpace = new LABSpace();
         Random rand = new Random();
-        float u = rand.nextFloat() * .5f + .5f; // random u between 0 and 1
+        float u = rand.nextFloat(); // random u between 0 and 1
         float v = rand.nextFloat(); // random v between 0 and 1
         float theta = 2 * 3.14159265359f * u;
         float phi = (float) Math.acos(2 * v - 1);
@@ -133,6 +133,12 @@ public class ColorAssigner {
         float z1 = (float) (z + (radius * Math.cos(phi)));
 
         float[] array = new float[] {x1, y1, z1};
+
+        float distance = getDistance(array, new float[] {x, y, z});
+
+        if (distance != radius) {
+            return getPointOnSphere(x, y, z, radius);
+        }
         return array;
 
     }
@@ -149,12 +155,18 @@ public class ColorAssigner {
             System.out.print(f + ", ");
         }
         System.out.println();
+        float beforeDistance = getDistance(coords, newCoords);
         System.out.println("Before Distance: " + getDistance(coords, newCoords));
         float[] newColorRGB = labspace.toRGB(newCoords);
         Color newColor = new Color(newColorRGB[0], newColorRGB[1], newColorRGB[2]);
 
         float[] afterCoords = labspace.fromRGB(newColor.getRGBColorComponents(null));
-        System.out.println("After Distance: " + getDistance(coords, afterCoords));
+        float afterDistance = getDistance(coords, afterCoords);
+        if (beforeDistance < afterDistance - 10 || beforeDistance > afterDistance + 10) {
+            return getOpposingColor(c, distance);
+        }
+        System.out.println("After Distance: " + afterDistance);
+        System.out.println();
         return newColor;
     }
 
