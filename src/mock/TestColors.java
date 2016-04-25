@@ -73,7 +73,7 @@ public class TestColors extends Frame {
             g.fillRect(0, height + 10, 400, height);
 
             for (int i = 2; i < 10; i++) {
-                Color newColor = ColorAssigner.getOpposingColor(prevColor, 0);
+                Color newColor = ColorAssigner.getOpposingColor(prevColor, 120);
                 g.setColor(newColor);
                 Rectangle rect3 = new Rectangle(0, i *height + 10, 400, height);
                 g.fillRect(0, i *height + 10, 400, height);
