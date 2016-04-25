@@ -49,8 +49,6 @@ public class TestColors extends Frame {
         int height = 60;
         ColorSpace ls = new LABSpace();
 
-        System.out.println("-----------------");
-
         /*Color prev = new Color(ColorAssigner.getColor(0));
 
         g.setColor(prev);
@@ -69,13 +67,13 @@ public class TestColors extends Frame {
         g.fillRect(0, 2*height, 400, height);*/
 
 
-            Color prevColor = Color.PINK;
+            Color prevColor = Color.BLUE;
             g.setColor(prevColor);
             Rectangle rect2 = new Rectangle(0, height + 10, 400, height);
             g.fillRect(0, height + 10, 400, height);
 
             for (int i = 2; i < 10; i++) {
-                Color newColor = ColorAssigner.getOpposingColor(prevColor, 100);
+                Color newColor = ColorAssigner.getOpposingColor(prevColor, 0);
                 g.setColor(newColor);
                 Rectangle rect3 = new Rectangle(0, i *height + 10, 400, height);
                 g.fillRect(0, i *height + 10, 400, height);

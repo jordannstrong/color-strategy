@@ -143,20 +143,24 @@ public class ColorAssigner {
 
     }
 
+    /**
+     *
+     * @param c The base color
+     * @param distance The COLOR distance desired from the new color to be generated. Smaller values will produce
+     *                 a color similar to the input color, larger values will produce a color that is distinct from
+     *                 the input color. The input distance should not be more than 150, as this could lead to a stack
+     *                 overflow error.
+     * @return A random color that is perceptually as distant as the given distance.
+     */
     public static Color getOpposingColor(Color c, int distance) {
+        if (distance > 150) {
+            throw new IllegalArgumentException("Distance should not be more than 150.");
+        }
+
         ColorSpace labspace = new LABSpace();
         float[] coords = labspace.fromRGB(c.getRGBColorComponents(null));
-        for (float f : coords) {
-            System.out.print(f + ", ");
-        }
-        System.out.println();
         float[] newCoords = ColorAssigner.getPointOnSphere(coords[0], coords[1], coords[2], distance);
-        for (float f : newCoords) {
-            System.out.print(f + ", ");
-        }
-        System.out.println();
         float beforeDistance = getDistance(coords, newCoords);
-        System.out.println("Before Distance: " + getDistance(coords, newCoords));
         float[] newColorRGB = labspace.toRGB(newCoords);
         Color newColor = new Color(newColorRGB[0], newColorRGB[1], newColorRGB[2]);
 
@@ -165,14 +169,21 @@ public class ColorAssigner {
         if (beforeDistance < afterDistance - 10 || beforeDistance > afterDistance + 10) {
             return getOpposingColor(c, distance);
         }
-        System.out.println("After Distance: " + afterDistance);
-        System.out.println();
         return newColor;
     }
 
+    /**
+     *
+     * @param pointA set of coordinates A
+     * @param pointB set of coordinates B
+     * @return The distance between two points.
+     */
     public static float getDistance(float[] pointA, float[] pointB) {
+        if (pointA.length != pointB.length) {
+            throw new IllegalArgumentException("Points must be in the same dimension to calculate distance.");
+        }
         float sum = 0;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < pointA.length; i++) {
             sum += Math.pow(pointA[i] - pointB[i], 2);
         }
         return (float) Math.sqrt(sum);
