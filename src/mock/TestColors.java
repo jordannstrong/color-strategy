@@ -67,7 +67,7 @@ public class TestColors extends Frame {
         g.fillRect(0, 2*height, 400, height);*/
 
 
-            Color prevColor = Color.BLUE;
+            Color prevColor = Color.YELLOW;
             g.setColor(prevColor);
             Rectangle rect2 = new Rectangle(0, height + 10, 400, height);
             g.fillRect(0, height + 10, 400, height);

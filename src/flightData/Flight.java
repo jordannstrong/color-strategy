@@ -14,8 +14,7 @@ import java.util.List;
 public class Flight
 {
 	private String flightID;
-	// where each coordinate triple is formatted: lon,lat,alt
-	private List<double[]> coordinateList;
+	private List<double[]> coordinateList; // where each coordinate triple is formatted: lon,lat,alt
 	private Color pathColor;
 
 
@@ -114,6 +113,23 @@ public class Flight
     public List<double[]> getCoordinateList() {
         return coordinateList;
     }
+
+	public double[] getStartCoordinate() {
+		return coordinateList.get(0);
+	}
+
+	public double[] getEndCoordinate() {
+		return coordinateList.get(coordinateList.size()-1);
+	}
+
+	public double getSlope() {
+		double x1 = getStartCoordinate()[0];
+		double y1 = getStartCoordinate()[1];
+		double x2 = getEndCoordinate()[0];
+		double y2 = getEndCoordinate()[1];
+
+		return y2-y1 / x2-x1;
+	}
 
     /**
      * Accessor method to get the startPoint field of the Flight

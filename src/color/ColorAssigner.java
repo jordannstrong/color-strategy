@@ -117,7 +117,7 @@ public class ColorAssigner {
      * @param y y
      * @param z z
      * @param radius radius from the center of the sphere to its surface
-     * @return an array containing the x,y,z coordinates of a random point on the suface of the sphere
+     * @return an array containing the x,y,z coordinates of a random point on the surface of the sphere
      *
      */
     public static float[] getPointOnSphere(float x, float y, float z, float radius) {
@@ -134,7 +134,7 @@ public class ColorAssigner {
 
         float[] array = new float[] {x1, y1, z1};
 
-        float distance = getDistance(array, new float[] {x, y, z});
+        float distance = DistanceCalculator.getDistance(array, new float[] {x, y, z});
 
         if (distance != radius) {
             return getPointOnSphere(x, y, z, radius);
@@ -160,32 +160,15 @@ public class ColorAssigner {
         ColorSpace labspace = new LABSpace();
         float[] coords = labspace.fromRGB(c.getRGBColorComponents(null));
         float[] newCoords = ColorAssigner.getPointOnSphere(coords[0], coords[1], coords[2], distance);
-        float beforeDistance = getDistance(coords, newCoords);
+        float beforeDistance = DistanceCalculator.getDistance(coords, newCoords);
         float[] newColorRGB = labspace.toRGB(newCoords);
         Color newColor = new Color(newColorRGB[0], newColorRGB[1], newColorRGB[2]);
 
         float[] afterCoords = labspace.fromRGB(newColor.getRGBColorComponents(null));
-        float afterDistance = getDistance(coords, afterCoords);
+        float afterDistance = DistanceCalculator.getDistance(coords, afterCoords);
         if (beforeDistance < afterDistance - 10 || beforeDistance > afterDistance + 10) {
             return getOpposingColor(c, distance);
         }
         return newColor;
-    }
-
-    /**
-     *
-     * @param pointA set of coordinates A
-     * @param pointB set of coordinates B
-     * @return The distance between two points.
-     */
-    public static float getDistance(float[] pointA, float[] pointB) {
-        if (pointA.length != pointB.length) {
-            throw new IllegalArgumentException("Points must be in the same dimension to calculate distance.");
-        }
-        float sum = 0;
-        for (int i = 0; i < pointA.length; i++) {
-            sum += Math.pow(pointA[i] - pointB[i], 2);
-        }
-        return (float) Math.sqrt(sum);
     }
 }
