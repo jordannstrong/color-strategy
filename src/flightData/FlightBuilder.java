@@ -1,8 +1,10 @@
 package flightData;
 
 import FileIO.KMLWriter;
+import color.ColorAssigner;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,14 +18,16 @@ import java.util.List;
 public class FlightBuilder
 {
 	private LinkedList<String> queryList;
-	private LinkedList<Flight> flightList;
+	private Flight[] flightList;
 
 	/**
 	 * Main method if we need one. Right now it just prints out "Hello" like it
 	 * does in the DistanceCalculator
 	 */
 	public static void main(String[] args) {
-		KMLWriter kw = new KMLWriter(getTestFlights());
+		Flight[] fs = getTestFlights();
+		colorByDest(fs);
+		KMLWriter kw = new KMLWriter(fs);
 		kw.toFile("TestFile.kml");
 	}
 
@@ -86,14 +90,14 @@ public class FlightBuilder
 		double[][] SLCtoGEG = new double[][] {SLC, GEG};
 
 		return new Flight[] {
-				new Flight("", "PHL", "IAD", PHLtoIAD, Color.RED),
-				new Flight("", "PHL", "LAX", PHLtoLAX, Color.CYAN),
-				new Flight("", "PHL", "JFK", PHLtoJFK, Color.GREEN),
-				new Flight("", "PHL", "DFW", PHLtoDFW, Color.PINK),
-				new Flight("", "JFK", "DFW", JFKtoDFW, Color.ORANGE),
-				new Flight("", "JFK", "IAD", JFKtoIAD, Color.YELLOW),
-				new Flight("", "JFK", "LAX", JFKtoLAX, Color.MAGENTA),
-				new Flight("", "SLC", "GEG", SLCtoGEG, Color.LIGHT_GRAY)
+				new Flight("", "PHL", "IAD", PHLtoIAD, null),
+				new Flight("", "PHL", "LAX", PHLtoLAX, null),
+				new Flight("", "PHL", "JFK", PHLtoJFK, null),
+				new Flight("", "PHL", "DFW", PHLtoDFW, null),
+				new Flight("", "JFK", "DFW", JFKtoDFW, null),
+				new Flight("", "JFK", "IAD", JFKtoIAD, null),
+				new Flight("", "JFK", "LAX", JFKtoLAX, null),
+				new Flight("", "SLC", "GEG", SLCtoGEG, null)
 		};
 	}
 
@@ -103,15 +107,33 @@ public class FlightBuilder
 	 *
 	 * @return A LinkedList of Flight objects
 	 */
-	public List<Flight> getFlightList()
+	public Flight[] getFlightList()
 	{
-		// Some processing is needed here to fill flightList with Flight objects
-		// containing information that we want. IE: All Flights with startPoint
-		// of PHL (Philly airport).
+		Flight[] flights = getTestFlights(); // TODO: Replace with actual user input
+		return null;
+	}
 
-		//flightList.add(new Flight
-				//(String flightID, String startPoint, String endPoint, Color color));
+	private static void colorByOrigin(Flight[] flights) {
+		List<String> origins = new ArrayList<>();
+		for (Flight f : flights) {
+			if (origins.contains(f.getOrigin())) {
+				f.setPathColor(new Color(ColorAssigner.getColor(origins.indexOf(f.getOrigin()))));
+			} else {
+				f.setPathColor(new Color(ColorAssigner.getColor(origins.size())));
+				origins.add(f.getOrigin());
+			}
+		}
+	}
 
-		return this.flightList;
-	}// end getFlightList
-}// end FlightBuilder
+	private static void colorByDest(Flight[] flights) {
+		List<String> dests = new ArrayList<>();
+		for (Flight f : flights) {
+			if (dests.contains(f.getOrigin())) {
+				f.setPathColor(new Color(ColorAssigner.getColor(dests.indexOf(f.getDestination()))));
+			} else {
+				f.setPathColor(new Color(ColorAssigner.getColor(dests.size())));
+				dests.add(f.getDestination());
+			}
+		}
+	}
+}

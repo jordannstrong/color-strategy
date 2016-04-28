@@ -1,7 +1,6 @@
 package color;
 
 import FileIO.KMLWriter;
-import flightData.Flight;
 
 import java.awt.*;
 import java.awt.color.ColorSpace;
@@ -14,16 +13,7 @@ public class ColorAssigner {
      * directory.
      */
     public static void main(String[] args) {
-        Flight[] flights = KMLWriter.getTestFlights();
 
-        int i = 50;
-        for (Flight f : flights) {
-            f.setPathColor(new Color(getColor(i)));
-            i ++;
-        }
-
-        KMLWriter k = new KMLWriter(flights);
-        k.toFile("TestFile.kml");
     }
 
     /**
@@ -33,7 +23,7 @@ public class ColorAssigner {
      */
     public static int getColor(int n) {
         Random rand = new Random();
-        return Color.HSBtoRGB((float) getHue(n), rand.nextFloat() % 0.4f + 0.6f, rand.nextFloat() % 0.4f + 0.6f);
+        return Color.HSBtoRGB((float) getHue(n), 1, 1);//rand.nextFloat() % 0.4f + 0.6f, rand.nextFloat() % 0.4f + 0.6f);
     }
 
     /*private String color(Flight f1, Flight f2) {
@@ -120,7 +110,7 @@ public class ColorAssigner {
      * @return an array containing the x,y,z coordinates of a random point on the surface of the sphere
      *
      */
-    public static float[] getPointOnSphere(float x, float y, float z, float radius) {
+    public static double[] getPointOnSphere(float x, float y, float z, float radius) {
         ColorSpace labSpace = new LABSpace();
         Random rand = new Random();
         float u = rand.nextFloat(); // random u between 0 and 1
@@ -132,9 +122,9 @@ public class ColorAssigner {
         float y1 = (float) (y + (radius * Math.sin(phi) * Math.sin(theta)));
         float z1 = (float) (z + (radius * Math.cos(phi)));
 
-        float[] array = new float[] {x1, y1, z1};
+        double[] array = new double[] {x1, y1, z1};
 
-        float distance = DistanceCalculator.getDistance(array, new float[] {x, y, z});
+        double distance = DistanceCalculator.getDistance(array, new double[] {x, y, z});
 
         if (distance != radius) {
             return getPointOnSphere(x, y, z, radius);
@@ -159,16 +149,32 @@ public class ColorAssigner {
 
         ColorSpace labspace = new LABSpace();
         float[] coords = labspace.fromRGB(c.getRGBColorComponents(null));
-        float[] newCoords = ColorAssigner.getPointOnSphere(coords[0], coords[1], coords[2], distance);
-        float beforeDistance = DistanceCalculator.getDistance(coords, newCoords);
-        float[] newColorRGB = labspace.toRGB(newCoords);
+        double[] newCoords = ColorAssigner.getPointOnSphere(coords[0], coords[1], coords[2], distance);
+        double beforeDistance = DistanceCalculator.getDistance(floatToDouble(coords), newCoords);
+        float[] newColorRGB = labspace.toRGB(doubleToFloat(newCoords));
         Color newColor = new Color(newColorRGB[0], newColorRGB[1], newColorRGB[2]);
 
         float[] afterCoords = labspace.fromRGB(newColor.getRGBColorComponents(null));
-        float afterDistance = DistanceCalculator.getDistance(coords, afterCoords);
+        double afterDistance = DistanceCalculator.getDistance(floatToDouble(coords), floatToDouble(afterCoords));
         if (beforeDistance < afterDistance - 10 || beforeDistance > afterDistance + 10) {
             return getOpposingColor(c, distance);
         }
         return newColor;
+    }
+
+    private static double[] floatToDouble(float[] floats) {
+        double[] doubles = new double[floats.length];
+        for (int i = 0; i < doubles.length; i++) {
+            doubles[i] = (double) floats[i];
+        }
+        return doubles;
+    }
+
+    private static float[] doubleToFloat(double[] doubles) {
+        float[] floats = new float[doubles.length];
+        for (int i = 0; i < floats.length; i++) {
+            floats[i] = (float) doubles[i];
+        }
+        return floats;
     }
 }
