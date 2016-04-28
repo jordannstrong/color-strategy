@@ -33,8 +33,7 @@ public class KMLWriter {
      * Main driver for testing.
      */
     public static void main(String[] args) {
-        KMLWriter k = new KMLWriter(getTestFlights());
-        k.toFile("TestFile.kml");
+
     }
     public KMLWriter(Flight[] flights) {
         this.flights = flights;
@@ -73,91 +72,6 @@ public class KMLWriter {
         }
     }
 
-    /**
-     * TODO: Remove, for testing only
-     * Dummy flights I came up with just to test the KMLWriter and ColorAssigner. These flight paths are overtly
-     * simplistic and cannot be used for full project testing.
-     */
-    public static Flight[] getTestFlights() {
-        final double JFK_LON = -73.7782;
-        final double JFK_LAT = 40.6412;
-        final double JFK_ALT = 10;
-
-        List<double[]> testCoords = new ArrayList<double[]>();
-        double[] first = new double[]{
-                JFK_LON, JFK_LAT, JFK_ALT
-        };
-        double[] second = new double[]{
-                -78.2, 39.3, 11121
-        };
-        double[] third = new double[]{
-                -82.9, 38.4, 10656
-        };
-        testCoords.add(first);
-        testCoords.add(second);
-        testCoords.add(third);
-
-        List<double[]> testCoords2 = new ArrayList<double[]>();
-        double[] first2 = new double[] {
-                JFK_LON, JFK_LAT, JFK_ALT
-        };
-        double[] second2 = new double[] {
-                -75.3,  39.0, 9000
-        };
-        double[] third2 = new double[] {
-                -79.6, 37.5, 10000
-        };
-        testCoords2.add(first2);
-        testCoords2.add(second2);
-        testCoords2.add(third2);
-
-        List<double[]> testCoords3 = new ArrayList<double[]>();
-        double[] first3 = new double[] {
-                JFK_LON, JFK_LAT, JFK_ALT
-        };
-        double[] weird0 = new double[] {
-                -74.98, 38.87, 11000
-        };
-        double[] weird = new double[] {
-                -76.8, 35.6, 11000
-        };
-        double[] second3 = new double[] {
-                -81.3,  33.0, 11231
-        };
-        double[] third3 = new double[] {
-                -82.6, 30.5, 11323
-        };
-
-        List<double[]> testCoords4 = new ArrayList<double[]>();
-        double[] first4 = new double[] {
-                JFK_LON-8, JFK_LAT-2, JFK_ALT
-        };
-        double[] second4 = new double[] {
-                -75.3-8,  39.0-2, 9000
-        };
-        double[] third4 = new double[] {
-                -78.6-8, 37.5-2, 10000
-        };
-
-        testCoords3.add(first3);
-        testCoords3.add(weird0);
-        testCoords3.add(weird);
-        testCoords3.add(second3);
-        testCoords3.add(third3);
-        testCoords4.add(first4);
-        testCoords4.add(second4);
-        testCoords4.add(third4);
-
-        Flight[] sampleFlights = new Flight[]{
-                new Flight("", testCoords, null),
-                new Flight("", testCoords2, null),
-                new Flight("", testCoords3, null),
-                new Flight("", testCoords4, null)
-        };
-
-        return sampleFlights;
-    }
-
     private void addStyleElement(String styleID, String colorValue, String width) {
         Element styleElement = doc.createElement("Style");
         styleElement.setAttribute("id", styleID);
@@ -193,13 +107,17 @@ public class KMLWriter {
         Element lineStringElement = doc.createElement("LineString");
         placemarkElement.appendChild(lineStringElement);
 
+        Element tessellateElement = doc.createElement("tessellate");
+        tessellateElement.setTextContent("1");
+        lineStringElement.appendChild(tessellateElement);
+
         Element altModeElement = doc.createElement("altitudeMode");
-        altModeElement.setTextContent("absolute");
+        altModeElement.setTextContent("clampToGround"); //TODO: change back to 'absolute' if necessary
         lineStringElement.appendChild(altModeElement);
 
         Element coordinatesElement = doc.createElement("coordinates");
         String coordinatesText = "";
-        List<double[]> coordinateList = flight.getCoordinateList();
+        double[][] coordinateList = flight.getCoordinateList();
         for (double[] coord : coordinateList) {
             coordinatesText += "" + coord[0] + "," + coord[1] + "," + coord[2] + "\n";
         }

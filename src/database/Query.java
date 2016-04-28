@@ -18,7 +18,6 @@ public class Query
 	public Query()
 	{
 		query = "";
-		color = new Color();
 	}
 	
 

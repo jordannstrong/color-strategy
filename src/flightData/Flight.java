@@ -14,7 +14,9 @@ import java.util.List;
 public class Flight
 {
 	private String flightID;
-	private List<double[]> coordinateList; // where each coordinate triple is formatted: lon,lat,alt
+	private String origin;
+	private String destination;
+	private double[][] coordinateList; // where each coordinate triple is formatted: lon,lat,alt
 	private Color pathColor;
 
 
@@ -24,7 +26,7 @@ public class Flight
 	 */
 	public static void main(String[] args) {
 		System.out.println("Hello.");
-	}// end Main
+	}
 
 
     /**
@@ -33,19 +35,21 @@ public class Flight
      */
     public Flight(){
         this.flightID = null;
-        //this.pathColor = null;
-    }//end Flight
+    }
 
 	/**
 	 *
 	 * @param flightID
-	 * @param coordinateList List of coordinate triples where each triple is of
-	 *                       the form lon,lat,alt
-	 * @param pathColor
+	 * @param origin 			Origin airport code (SFO, LAX, etc).
+	 * @param destination 		Destination airport code.
+	 * @param coordinateList 	List of coordinate triples where each triple is of the form lon,lat,alt
+	 * @param pathColor			Color that the flight will be associated with for visualization.
 	 */
-	public Flight(String flightID, List<double[]> coordinateList,
+	public Flight(String flightID, String origin, String destination, double[][] coordinateList,
 				  Color pathColor){
 		this.flightID = flightID;
+		this.origin = origin;
+		this.destination = destination;
 		this.coordinateList = coordinateList;
 		this.pathColor = pathColor;
 
@@ -110,16 +114,16 @@ public class Flight
 				sRGB.substring(4, 6) + sRGB.substring(2, 4);
 	}
 
-    public List<double[]> getCoordinateList() {
+    public double[][] getCoordinateList() {
         return coordinateList;
     }
 
 	public double[] getStartCoordinate() {
-		return coordinateList.get(0);
+		return coordinateList[0];
 	}
 
 	public double[] getEndCoordinate() {
-		return coordinateList.get(coordinateList.size()-1);
+		return coordinateList[coordinateList.length-1];
 	}
 
 	public double getSlope() {
@@ -131,7 +135,19 @@ public class Flight
 		return y2-y1 / x2-x1;
 	}
 
-    /**
+	public String getOrigin() {
+		return origin;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public String toString() {
+		return origin + "-" + destination;
+	}
+
+	/**
      * Accessor method to get the startPoint field of the Flight
      *
      * @return A String of the startPoint

@@ -13,6 +13,7 @@ import java.awt.Color;
 
 public class Flight
 {
+
 	private String startPoint;
 	private String endPoint;
 	private Color color;
