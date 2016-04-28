@@ -50,8 +50,7 @@ public class FlightBuilder
 
 	/**
 	 * TODO: Remove, for testing only
-	 * Dummy flights I came up with just to test the KMLWriter and ColorAssigner. These flight paths are overtly
-	 * simplistic and cannot be used for full project testing.
+	 * Dummy flights I came up with just to test the KMLWriter and ColorAssigner.
 	 */
 	public static Flight[] getTestFlights() {
 		final double JFK_LON = -73.778;

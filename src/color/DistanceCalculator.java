@@ -16,13 +16,9 @@ public class DistanceCalculator {
     public static void main(String[] args) {
         Flight[] flights = FlightBuilder.getTestFlights();
         for (int i = 0; i < flights.length-1; i++) {
-            String inter = intersect(flights[i], flights[i+1]) ? "Yes" : "No";
-            System.out.println(flights[i].toString() + " and " + flights[i+1].toString() + " " + inter);
+            String angle = Double.toString(getFlightDistance(flights[i], flights[i+1]));
+            System.out.println(flights[i].toString() + " and " + flights[i+1].toString() + " " + angle);
         }
-        String inter = intersect(flights[1], flights[4]) ? "Yes" : "No";
-        System.out.println(flights[1].toString() + " and " + flights[4].toString() + " " + inter);
-        String inter2 = intersect(flights[3], flights[5]) ? "Yes" : "No";
-        System.out.println(flights[3].toString() + " and " + flights[5].toString() + " " + inter2);
     }
 
     /**
@@ -32,19 +28,20 @@ public class DistanceCalculator {
      * @param pointB set of coordinates B
      * @return The Euclidean distance between two points.
      */
-    public static float getDistance(float[] pointA, float[] pointB) {
+    public static double getDistance(double[] pointA, double[] pointB) {
         if (pointA.length != pointB.length) {
             throw new IllegalArgumentException("Points must be in the same dimension to calculate distance.");
         }
-        float sum = 0;
+        double sum = 0;
         for (int i = 0; i < pointA.length; i++) {
             sum += Math.pow(pointA[i] - pointB[i], 2);
         }
-        return (float) Math.sqrt(sum);
+        return Math.sqrt(sum);
     }
 
-    public static float getFlightDistance(Flight f1, Flight f2) {
-        return 0; //TODO
+    public static double getFlightDistance(Flight f1, Flight f2) {
+        double dist = getMinDist(f1, f2);
+        return dist == 0 ? angleBetweenLines(f1, f2) / (Math.PI/2) : dist + 1;
     }
 
     // Returns true only if the slope of AB is less than the slope of AC (if ABC are arranged counterclockwise).
@@ -67,8 +64,37 @@ public class DistanceCalculator {
         if (a1[0] == a2[0] && a1[1] == a2[1] || a1[0] == b2[0] && a1[1] == b2[1] || b1[0] == a2[0] && b1[1] == a2[1] ||
                 b1[0] == b2[0] && b1[1] == b2[1]) {
             return true;
-        }
+        } //if they share a point, they intersect
 
         return ccw(a1, a2, b2) != ccw(b1, a2, b2) && ccw(a1, b1, a2) != ccw(a1, b1, b2);
+    }
+
+    /**
+     * @param f1 flight 1
+     * @param f2 flight 2
+     * @return the minimum angle between two flight tracks in radians as a positive number.
+     */
+    private static double angleBetweenLines(Flight f1, Flight f2) {
+        double angle1 = Math.atan2(f1.getStartCoordinate()[1] - f1.getEndCoordinate()[1],
+                f1.getStartCoordinate()[0] - f1.getEndCoordinate()[0]);
+        double angle2 = Math.atan2(f2.getStartCoordinate()[1] - f2.getEndCoordinate()[1],
+                f2.getStartCoordinate()[0] - f2.getEndCoordinate()[0]);
+
+        double angle = Math.abs(angle1 - angle2);
+        angle = angle > Math.PI/2 ? Math.PI - angle : angle;
+        return angle;
+    }
+
+    private static double getMinDist(Flight f1, Flight f2) {
+        double dist = 9999999;
+        double[][] f1c = f1.getCoordinateList();
+        double[][] f2c = f2.getCoordinateList();
+
+        for (int i = 0; i < f1c.length; i++) {
+            for (int j = 0; j < f2c.length; j++) {
+                dist = Math.min(dist, getDistance(f1c[i], f2c[j]));
+            }
+        }
+        return dist;
     }
 }
