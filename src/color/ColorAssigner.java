@@ -1,6 +1,5 @@
 package color;
 
-import FileIO.KMLWriter;
 
 import java.awt.*;
 import java.awt.color.ColorSpace;
@@ -13,7 +12,6 @@ public class ColorAssigner {
      * directory.
      */
     public static void main(String[] args) {
-
     }
 
     /**

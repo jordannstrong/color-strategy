@@ -2,8 +2,18 @@ package flightData;
 
 import FileIO.KMLWriter;
 import color.ColorAssigner;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,16 +29,27 @@ public class FlightBuilder
 {
 	private LinkedList<String> queryList;
 	private Flight[] flightList;
+	private CSVParser csvParser;
 
 	/**
-	 * Main method if we need one. Right now it just prints out "Hello" like it
-	 * does in the DistanceCalculator
+	 * Driver method for testing.
 	 */
 	public static void main(String[] args) {
-		Flight[] fs = getTestFlights();
-		colorByDest(fs);
-		KMLWriter kw = new KMLWriter(fs);
-		kw.toFile("TestFile.kml");
+        try {
+            FlightBuilder fb = new FlightBuilder(new File("res//ac_list0.csv"), 19, 17);
+            Flight[] fs = fb.getFlightList();
+            //colorByDest(fs);
+
+            for (Flight f : fs) {
+                if (f != null) System.out.println(f.getOrigin());
+            }
+            colorByDest(fs);
+            KMLWriter kw = new KMLWriter(fs);
+            kw.toFile("TestFile.kml");
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
 	}
 
 	/**
@@ -53,6 +74,89 @@ public class FlightBuilder
 	}// end FlightBuilder
 
 	/**
+	 *
+	 * @param csvFile csv file
+     * @param originIndex Index of the origin airport code (3 or 4 char) as a String in the csv table
+     * @param destIndex Index of the destination airport code (3 or 4 char) as a String in the csv table
+     */
+	public FlightBuilder(File csvFile, int originIndex, int destIndex) throws IOException{
+        flightList = new Flight[100];
+        BufferedReader fr = new BufferedReader(new FileReader(csvFile));
+        int i = 0;
+        fr.readLine();
+		do {
+            String line = fr.readLine();
+            if (line == null) {
+                continue;
+            }
+            String orig = readCol(line, originIndex);
+            String dest = readCol(line, destIndex);
+			double[] origLONLAT = getCoordinatesOfAirport(orig);
+			double[] destLONLAT = getCoordinatesOfAirport(dest);
+            if (origLONLAT == null || destLONLAT == null) {
+                System.err.println("Problem with record " + i);
+                continue;
+            }
+            double[] originCoords = {origLONLAT[0], origLONLAT[1], 11000};
+            double[] destCoords = {destLONLAT[0], destLONLAT[1], 11000};
+			flightList[i] = (new Flight(
+					"",
+					orig,
+					dest,
+                    new double[][] {originCoords, destCoords}, new Color(ColorAssigner.getColor(i))
+					));
+            i++;
+		} while (fr.readLine() != null);
+        flightList = cleanArray(flightList);
+	}
+
+    private String readCol(String line, int col) throws IOException{
+        String[] array = line.split(",");
+        return array[col] == null ? "" : array[col];
+    }
+
+    private Flight[] cleanArray(Flight[] array) {
+        int numOfNull = 0;
+        for (Flight f : array) {
+            if (f == null) numOfNull++;
+        }
+        Flight[] cArray = new Flight[array.length-numOfNull];
+        int i = 0;
+        for (Flight f : array) {
+            if (f != null) cArray[i] = f;
+            i++;
+        }
+        return cArray;
+    }
+
+    /**
+     *
+     * @param orig
+     * @return the coordinates in an array in the form of {lon, lat}.
+     */
+    public static double[] getCoordinatesOfAirport(String orig) {
+        try {
+            CSVParser parser = CSVParser.parse(
+                    new File("res//airport_coordinate_list.csv"),
+                    Charset.defaultCharset(),
+                    CSVFormat.EXCEL);
+            for (CSVRecord c : parser) {
+                if (c.get(4).equals(orig) || c.get(4).equals(orig.toLowerCase())) {
+                    double lat = Double.valueOf(c.get(6));
+                    double lon = Double.valueOf(c.get(7));
+
+                    return new double[] {lon, lat}; //TODO: Input altitude based on records
+                }
+            }
+
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
 	 * TODO: Remove, for testing only
 	 * Dummy flights I came up with just to test the KMLWriter and ColorAssigner.
 	 */
@@ -109,8 +213,7 @@ public class FlightBuilder
 	 */
 	public Flight[] getFlightList()
 	{
-		Flight[] flights = getTestFlights(); // TODO: Replace with actual user input
-		return null;
+		return flightList;
 	}
 
 	private static void colorByOrigin(Flight[] flights) {
@@ -128,12 +231,14 @@ public class FlightBuilder
 	private static void colorByDest(Flight[] flights) {
 		List<String> dests = new ArrayList<>();
 		for (Flight f : flights) {
-			if (dests.contains(f.getOrigin())) {
-				f.setPathColor(new Color(ColorAssigner.getColor(dests.indexOf(f.getDestination()))));
-			} else {
-				f.setPathColor(new Color(ColorAssigner.getColor(dests.size())));
-				dests.add(f.getDestination());
-			}
+            if (f != null) {
+                if (dests.contains(f.getOrigin())) {
+                    f.setPathColor(new Color(ColorAssigner.getColor(dests.indexOf(f.getDestination()))));
+                } else {
+                    f.setPathColor(new Color(ColorAssigner.getColor(dests.size())));
+                    dests.add(f.getDestination());
+                }
+            }
 		}
 	}
 }

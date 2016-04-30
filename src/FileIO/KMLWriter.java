@@ -11,10 +11,8 @@ import javax.xml.transform.stream.StreamResult;
 import flightData.Flight;
 import org.w3c.dom.*;
 
+import java.awt.*;
 import java.io.File;
-import java.util.*;
-
-import java.awt.Color;
 
 /**
  * Created by Kevin on 4/16/2016.
@@ -95,6 +93,7 @@ public class KMLWriter {
         documentElement.appendChild(placemarkElement);
 
         //chcek if the color style element has already been created, and if not create it
+        if (flight.getPathColor() == null) flight.setPathColor(Color.black);
         String styleID = "" + flight.getPathColor().getRGB();
         if (doc.getElementById(styleID) == null) {
             addStyleElement(styleID, flight.getKMLColor(), "4");

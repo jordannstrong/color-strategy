@@ -1,7 +1,6 @@
 package color;
 
 import flightData.Flight;
-import flightData.FlightBuilder;
 
 /**
  * Created by Kevin on 4/26/2016.
@@ -14,11 +13,6 @@ public class DistanceCalculator {
      * Main driver for testing purposes.
      */
     public static void main(String[] args) {
-        Flight[] flights = FlightBuilder.getTestFlights();
-        for (int i = 0; i < flights.length-1; i++) {
-            String angle = Double.toString(getFlightDistance(flights[i], flights[i+1]));
-            System.out.println(flights[i].toString() + " and " + flights[i+1].toString() + " " + angle);
-        }
     }
 
     /**
