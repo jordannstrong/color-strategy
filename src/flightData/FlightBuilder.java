@@ -36,14 +36,9 @@ public class FlightBuilder
 	 */
 	public static void main(String[] args) {
         try {
-            FlightBuilder fb = new FlightBuilder(new File("res//ac_list0.csv"), 19, 17);
+            FlightBuilder fb = new FlightBuilder(new File("res\\test_routes_200.csv"), 2, 4);
             Flight[] fs = fb.getFlightList();
-            //colorByDest(fs);
-
-            for (Flight f : fs) {
-                if (f != null) System.out.println(f.getOrigin());
-            }
-            colorByDest(fs);
+            colorByOrigin(fs);
             KMLWriter kw = new KMLWriter(fs);
             kw.toFile("TestFile.kml");
         }
@@ -80,7 +75,7 @@ public class FlightBuilder
      * @param destIndex Index of the destination airport code (3 or 4 char) as a String in the csv table
      */
 	public FlightBuilder(File csvFile, int originIndex, int destIndex) throws IOException{
-        flightList = new Flight[100];
+        flightList = new Flight[1000];
         BufferedReader fr = new BufferedReader(new FileReader(csvFile));
         int i = 0;
         fr.readLine();
@@ -108,6 +103,7 @@ public class FlightBuilder
             i++;
 		} while (fr.readLine() != null);
         flightList = cleanArray(flightList);
+		System.out.println("" + flightList.length);
 	}
 
     private String readCol(String line, int col) throws IOException{
@@ -141,11 +137,13 @@ public class FlightBuilder
                     Charset.defaultCharset(),
                     CSVFormat.EXCEL);
             for (CSVRecord c : parser) {
-                if (c.get(4).equals(orig) || c.get(4).equals(orig.toLowerCase())) {
-                    double lat = Double.valueOf(c.get(6));
-                    double lon = Double.valueOf(c.get(7));
+				double lat = Double.valueOf(c.get(6));
+				double lon = Double.valueOf(c.get(7));
+				int i = 4;
+				if (c.get(i).equals("")) i = 5;
+                if (c.get(i).equals(orig) || c.get(i).equals(orig.toLowerCase())) {
 
-                    return new double[] {lon, lat}; //TODO: Input altitude based on records
+                    return new double[] {lon, lat};
                 }
             }
 
@@ -153,6 +151,7 @@ public class FlightBuilder
         catch (IOException ioe) {
             ioe.printStackTrace();
         }
+
         return null;
     }
 
