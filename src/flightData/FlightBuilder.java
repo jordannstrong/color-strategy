@@ -36,7 +36,7 @@ public class FlightBuilder
 	 */
 	public static void main(String[] args) {
         try {
-            FlightBuilder fb = new FlightBuilder(new File("res\\test_routes_200.csv"), 2, 4);
+            FlightBuilder fb = new FlightBuilder(new File("res\\test_routes_150.csv"), 2, 4);
             Flight[] fs = fb.getFlightList();
             colorByOrigin(fs);
             KMLWriter kw = new KMLWriter(fs);
