@@ -1,11 +1,16 @@
 package color;
 
 
+import flightData.Flight;
+
 import java.awt.*;
 import java.awt.color.ColorSpace;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
+/**
+ * @author Kevin
+ */
 public class ColorAssigner {
     /**
      * Main driver for testing. Currently generates a few dummy flights and saves it to a KML file in this working
@@ -124,7 +129,7 @@ public class ColorAssigner {
 
         double distance = DistanceCalculator.getDistance(array, new double[] {x, y, z});
 
-        if (distance != radius) {
+        if (distance < radius - 10 || distance > radius + 10) {
             return getPointOnSphere(x, y, z, radius);
         }
         return array;
@@ -140,14 +145,15 @@ public class ColorAssigner {
      *                 overflow error.
      * @return A random color that is perceptually as distant as the given distance.
      */
-    public static Color getOpposingColor(Color c, int distance) {
+    public static Color getOpposingColor(Color c, double distance) {
         if (distance > 150) {
             throw new IllegalArgumentException("Distance should not be more than 150.");
         }
 
         ColorSpace labspace = new LABSpace();
+
         float[] coords = labspace.fromRGB(c.getRGBColorComponents(null));
-        double[] newCoords = ColorAssigner.getPointOnSphere(coords[0], coords[1], coords[2], distance);
+        double[] newCoords = ColorAssigner.getPointOnSphere(coords[0], coords[1], coords[2], (float) distance);
         double beforeDistance = DistanceCalculator.getDistance(floatToDouble(coords), newCoords);
         float[] newColorRGB = labspace.toRGB(doubleToFloat(newCoords));
         Color newColor = new Color(newColorRGB[0], newColorRGB[1], newColorRGB[2]);
@@ -174,5 +180,76 @@ public class ColorAssigner {
             floats[i] = (float) doubles[i];
         }
         return floats;
+    }
+
+    public void colorByOrigin(Flight[] flights) {
+        /*List<List<Flight>> list = groupByOrigin(flights);
+        for (List<Flight> group : list) {
+            double minDist = 99999;
+            Flight boundaryFlight = null;
+            for (Flight f : group) {
+                Flight nearestFlight = DistanceCalculator.getNearestFlight(f, flights);
+                double nearest = DistanceCalculator.getFlightDistance(f, nearestFlight);
+                if (nearest < minDist) {
+                    minDist = nearest;
+                    boundaryFlight = nearestFlight;
+                }
+            }
+            Color groupColor;
+            if (boundaryFlight.getPathColor() != null) {
+                groupColor = getOpposingColor(
+                        boundaryFlight.getPathColor(), DistanceCalculator.toColorDistance(minDist));
+
+            }
+            else {
+                groupColor = new Color(getColor(list.indexOf(group)));
+            }
+            for (Flight f : group) {
+                f.setPathColor(groupColor); // color group of tracks
+            }
+        }*/
+        List<String> origs = new ArrayList<>();
+        for (Flight f : flights) {
+            if (f != null) {
+                if (f.getPathColor() != null) continue;
+                if (origs.contains(f.getOrigin())) {
+                    f.setPathColor(new Color(ColorAssigner.getColor(origs.indexOf(f.getOrigin()))));
+                } else {
+                    f.setPathColor(new Color(ColorAssigner.getColor(origs.size())));
+                    origs.add(f.getOrigin());
+                }
+            }
+        }
+    }
+
+    private List<List<Flight>> groupByOrigin(Flight[] flights) {
+        List<String> origins = new ArrayList<>();
+        List<List<Flight>> list = new ArrayList<>();
+        for (Flight f : flights) {
+            String fOrig = f.getOrigin();
+            if (origins.contains(fOrig)) {
+                list.get(origins.indexOf(fOrig)).add(f);
+            }
+            else {
+                List<Flight> group = new LinkedList<>();
+                group.add(f);
+                list.add(group);
+            }
+        }
+        return list;
+    }
+
+    public static void colorByDest(Flight[] flights) {
+        List<String> dests = new ArrayList<>();
+        for (Flight f : flights) {
+            if (f != null) {
+                if (dests.contains(f.getOrigin())) {
+                    f.setPathColor(new Color(ColorAssigner.getColor(dests.indexOf(f.getDestination()))));
+                } else {
+                    f.setPathColor(new Color(ColorAssigner.getColor(dests.size())));
+                    dests.add(f.getDestination());
+                }
+            }
+        }
     }
 }

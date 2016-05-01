@@ -38,6 +38,26 @@ public class DistanceCalculator {
         return dist == 0 ? angleBetweenLines(f1, f2) / (Math.PI/2) : dist + 1;
     }
 
+    public static Flight getNearestFlight(Flight f1, Flight[] others) {
+        Flight nearest = null;
+        double minDist = 99999;
+        for (Flight f : others) {
+            double distance = getFlightDistance(f1, f);
+            if (f1.equals(f)) continue;
+            if (distance < minDist) {
+                nearest = f;
+            }
+        }
+        return nearest;
+    }
+
+    public static double toColorDistance(double d) {
+        if (d <= 0)         return 100;
+        if (d > 0 && d < 1) return 50;
+        if (d >= 1 && d < 5) return 25;
+        return 0;
+    }
+
     // Returns true only if the slope of AB is less than the slope of AC (if ABC are arranged counterclockwise).
     private static boolean ccw(double[] pointA, double[] pointB, double[] pointC) {
         return (pointC[1]-pointA[1])*(pointB[0]-pointA[0]) > (pointB[1]-pointA[1])*(pointC[0]-pointA[0]);

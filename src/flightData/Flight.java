@@ -147,6 +147,16 @@ public class Flight
 		return origin + "-" + destination;
 	}
 
+	public boolean equals(Object o) {
+		if (o instanceof Flight) {
+			Flight other = (Flight) o;
+			if (this.origin.equals(other.origin) && this.destination.equals(other.destination)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
      * Accessor method to get the startPoint field of the Flight
      *

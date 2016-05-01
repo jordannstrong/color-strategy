@@ -19,6 +19,8 @@ import java.io.File;
  *
  * Class for writing KML files to visualize flight paths. KML filenames end in '.kml' and can be opened by
  * Google Earth.
+ *
+ * @author Kevin
  */
 public class KMLWriter {
 

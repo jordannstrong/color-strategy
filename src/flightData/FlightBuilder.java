@@ -24,6 +24,8 @@ import java.util.List;
  * FlightBuilder class creates a list of Flight objects depending on
  * the parameters of the flights in question. These parameters are
  * provided by the required interface.
+ *
+ * @author Kevin DeMoura
  */
 public class FlightBuilder
 {
@@ -36,9 +38,10 @@ public class FlightBuilder
 	 */
 	public static void main(String[] args) {
         try {
-            FlightBuilder fb = new FlightBuilder(new File("res\\test_routes_150.csv"), 2, 4);
+            ColorAssigner ca = new ColorAssigner();
+            FlightBuilder fb = new FlightBuilder(new File("res\\test_routes_200.csv"), 2, 4);
             Flight[] fs = fb.getFlightList();
-            colorByOrigin(fs);
+            ca.colorByDest(fs);
             KMLWriter kw = new KMLWriter(fs);
             kw.toFile("TestFile.kml");
         }
@@ -215,29 +218,4 @@ public class FlightBuilder
 		return flightList;
 	}
 
-	private static void colorByOrigin(Flight[] flights) {
-		List<String> origins = new ArrayList<>();
-		for (Flight f : flights) {
-			if (origins.contains(f.getOrigin())) {
-				f.setPathColor(new Color(ColorAssigner.getColor(origins.indexOf(f.getOrigin()))));
-			} else {
-				f.setPathColor(new Color(ColorAssigner.getColor(origins.size())));
-				origins.add(f.getOrigin());
-			}
-		}
-	}
-
-	private static void colorByDest(Flight[] flights) {
-		List<String> dests = new ArrayList<>();
-		for (Flight f : flights) {
-            if (f != null) {
-                if (dests.contains(f.getOrigin())) {
-                    f.setPathColor(new Color(ColorAssigner.getColor(dests.indexOf(f.getDestination()))));
-                } else {
-                    f.setPathColor(new Color(ColorAssigner.getColor(dests.size())));
-                    dests.add(f.getDestination());
-                }
-            }
-		}
-	}
 }
