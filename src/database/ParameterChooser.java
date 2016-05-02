@@ -1,3 +1,6 @@
+package database;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -17,6 +20,8 @@ public class ParameterChooser
     private LinkedList<JComboBox> nameBoxes;
     private LinkedList<JComboBox> evalBoxes;
     private LinkedList<JComboBox> valueBoxes;
+    JColorChooser colorChooser;
+    Color newColor;
     
     //Must be initialized with the 
     protected ParameterChooser(LinkedList<Column> _colummList)
@@ -76,18 +81,45 @@ public class ParameterChooser
             JComboBox nameBox = new JComboBox(names);
             JComboBox evalBox = new JComboBox(evals);
             JComboBox valueBox = new JComboBox();
+            JButton colorBox = new JButton();
+
+            newColor = new Color(111111);
+            colorChooser = new JColorChooser(newColor);
+            newColor = colorChooser.getColor();
+
             int yPos = 15 + i * 25;
             nameBox.setBounds(10, yPos, 150, 30);
             evalBox.setBounds(165, yPos, 20, 30);
             valueBox.setBounds(190, yPos, 150, 30);
+            colorBox.setBounds(345, yPos, 30, 30);
             panel.add(nameBox);
             panel.add(evalBox);
             panel.add(valueBox);
-            
+            panel.add(colorBox);
             nameBoxes.add(nameBox);
             evalBoxes.add(evalBox);
             valueBoxes.add(valueBox);
-            
+
+            colorBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    JFrame newFrame = new JFrame();
+                    newFrame.setBounds(600, 600, 600, 600);
+                    newFrame.add(colorChooser);
+                    newFrame.setVisible(true);
+
+
+                    newColor = colorChooser.getColor();
+                    colorBox.setBackground(newColor);
+
+                    frame.validate();
+
+
+                }
+            });
+
+
             nameBox.addActionListener(new ActionListener()
             {
                 public void actionPerformed(ActionEvent actionEvent) {

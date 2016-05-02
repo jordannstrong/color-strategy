@@ -52,11 +52,11 @@ public class FlightBuilder
 			Flight flight = new Flight();
 			if(flightData.next())
 			{
-				flight.setStartPoint(flightData.getString("DEPARTLOC"));
-				flight.setEndPoint(flightData.getString("ENDLOC"));
+				//flight.setStartPoint(flightData.getString("DEPARTLOC"));
+				//flight.setEndPoint(flightData.getString("ENDLOC"));
 			}
 
-			flight.setColor(color);
+			//flight.setColor(color);
 			flightList.add(flight);
 		}
 	}

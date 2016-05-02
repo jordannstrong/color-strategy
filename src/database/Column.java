@@ -1,4 +1,6 @@
-import java.util.*; 
+package database;
+
+import java.util.*;
 
 /*
 * This class is a representation of a single column of an
