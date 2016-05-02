@@ -5,6 +5,9 @@ import flightData.Flight;
 
 import java.awt.*;
 import java.awt.color.ColorSpace;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.List;
 
@@ -17,6 +20,32 @@ public class ColorAssigner {
      * directory.
      */
     public static void main(String[] args) {
+        ColorAssigner ca = new ColorAssigner();
+        System.out.println(ca.getFDP());
+    }
+
+    public String getFDP() {
+        String result = null;
+        final String cmd = "cmd.exe /c dir";
+
+        ProcessBuilder pb=new ProcessBuilder("cmd.exe", "/c", "C:\\Users\\Kevin\\Documents\\Visual Studio 2015\\Projects\\WindowsFormsApplication1\\WindowsFormsApplication1\\bin\\Debug\\WindowsFormsApplication1.exe");
+        pb.redirectErrorStream(true);
+        Process process= null;
+        try {
+            process = pb.start();
+
+            BufferedReader inStreamReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+            String line = inStreamReader.readLine();
+            while (line != null) {
+                System.out.println(line);
+                result = line;
+                line = inStreamReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     /**

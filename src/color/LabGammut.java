@@ -1,12 +1,14 @@
 package color;
 
 import javax.vecmath.Vector3d;
-import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.util.ArrayList;
 
 /**
  * Created by Kevin on 5/1/2016.
+ *
+ * Abstraction of the portion of the L*A*B* Color space that is perceivable by humans. Used as a closed container in
+ * which points representing colors be contained inside of.
  */
 public class LabGammut {
 
