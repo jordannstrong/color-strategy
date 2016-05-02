@@ -28,7 +28,7 @@ public class ColorAssigner {
         String result = null;
         final String cmd = "cmd.exe /c dir";
 
-        ProcessBuilder pb=new ProcessBuilder("cmd.exe", "/c", "C:\\Users\\Kevin\\Documents\\Visual Studio 2015\\Projects\\WindowsFormsApplication1\\WindowsFormsApplication1\\bin\\Debug\\WindowsFormsApplication1.exe");
+        ProcessBuilder pb=new ProcessBuilder("cmd.exe", "/c", "C:\\Users\\Kevin\\Documents\\\"Visual Studio 2015\"\\Projects\\WindowsFormsApplication1\\WindowsFormsApplication1\\bin\\Debug\\WindowsFormsApplication1.exe");
         pb.redirectErrorStream(true);
         Process process= null;
         try {
