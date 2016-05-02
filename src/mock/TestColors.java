@@ -11,15 +11,18 @@ public class TestColors extends Frame {
 
     private final int WINDOW_HEIGHT = 1000;
     private final int WINDOW_WIDTH = 400;
+    private Color[] colors;
 
     public static void main(String[] args){
-        TestColors testColors = new TestColors();
-        testColors.setVisible(true);
+        //TestColors testColors = new TestColors();
+        //testColors.setVisible(true);
     }
 
-    public TestColors(){
+    public TestColors(Color[] colors){
         super("Test Colors");
+        this.colors = colors;
         prepareGUI();
+        setVisible(true);
     }
 
     private void prepareGUI(){
@@ -39,7 +42,7 @@ public class TestColors extends Frame {
     public void testHSLPicker(Graphics g) {
         int height = 50;
         for (int i = 0; i < 1000/height; i++) {
-            g.setColor(new Color(ColorAssigner.getColor(i)));
+            //g.setColor(new Color(ColorAssigner.getColor(i)));
             Rectangle r = new Rectangle(0, height*i, 400, height);
             g.fillRect(0, height*i, 400, height);
         }
@@ -66,14 +69,8 @@ public class TestColors extends Frame {
         Rectangle rect2 = new Rectangle(0, 2*height, 400, height);
         g.fillRect(0, 2*height, 400, height);*/
 
-
-            Color prevColor = Color.YELLOW;
-            g.setColor(prevColor);
-            Rectangle rect2 = new Rectangle(0, height + 10, 400, height);
-            g.fillRect(0, height + 10, 400, height);
-
-            for (int i = 2; i < 10; i++) {
-                Color newColor = ColorAssigner.getOpposingColor(prevColor, 120);
+            for (int i = 2; i < colors.length+2; i++) {
+                Color newColor = colors[i-2];
                 g.setColor(newColor);
                 Rectangle rect3 = new Rectangle(0, i *height + 10, 400, height);
                 g.fillRect(0, i *height + 10, 400, height);

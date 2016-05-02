@@ -2,6 +2,7 @@ package color;
 
 
 import flightData.Flight;
+import mock.TestColors;
 
 import java.awt.*;
 import java.awt.color.ColorSpace;
@@ -21,14 +22,16 @@ public class ColorAssigner {
      */
     public static void main(String[] args) {
         ColorAssigner ca = new ColorAssigner();
-        System.out.println(ca.getFDP());
+        Color[] colors = ca.toColors(ca.getFDP(5));
+        TestColors tc = new TestColors(colors);
     }
 
-    public String getFDP() {
-        String result = null;
+    public double[][] getFDP(int n) {
+        double[][] result = new double[n][3];
         final String cmd = "cmd.exe /c dir";
+        String arg = String.valueOf(n);
 
-        ProcessBuilder pb=new ProcessBuilder("cmd.exe", "/c", "C:\\Users\\Kevin\\Documents\\\"Visual Studio 2015\"\\Projects\\WindowsFormsApplication1\\WindowsFormsApplication1\\bin\\Debug\\WindowsFormsApplication1.exe");
+        ProcessBuilder pb=new ProcessBuilder("cmd.exe", "/c", "WindowsFormsApplication1.exe", arg);
         pb.redirectErrorStream(true);
         Process process= null;
         try {
@@ -37,13 +40,33 @@ public class ColorAssigner {
             BufferedReader inStreamReader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
             String line = inStreamReader.readLine();
+            int i = 0;
+            Random rand = new Random();
             while (line != null) {
                 System.out.println(line);
-                result = line;
+                String[] strXY = line.split(" ");
+                result[i][1] = Double.valueOf(strXY[0]);
+                result[i][2] = Double.valueOf(strXY[1]);
+                result[i][0] = rand.nextInt(rand.nextInt(75) + 25); // for now, random L.
                 line = inStreamReader.readLine();
+                i++;
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return result;
+    }
+
+    private Color[] toColors(double[][] lab) {
+        Color[] result = new Color[lab.length];
+        int i = 0;
+        ColorSpace labspace = new LABSpace();
+        for (double[] triple : lab) {
+            System.out.println("" + triple[0] + " " + triple[1] + " " +triple[2]);
+            float[] newColorRGB = labspace.toRGB(doubleToFloat(triple));
+            Color color = new Color(newColorRGB[0], newColorRGB[1], newColorRGB[2]);
+            result[i] = color;
+            i++;
         }
         return result;
     }
@@ -237,7 +260,7 @@ public class ColorAssigner {
                 f.setPathColor(groupColor); // color group of tracks
             }
         }*/
-        List<String> origs = new ArrayList<>();
+        /*List<String> origs = new ArrayList<>();
         for (Flight f : flights) {
             if (f != null) {
                 if (f.getPathColor() != null) continue;
@@ -248,24 +271,51 @@ public class ColorAssigner {
                     origs.add(f.getOrigin());
                 }
             }
+        }*/
+        Map<String, List<Flight>> map = groupByOrigin(flights);
+        List<List<Flight>> closeGroups = new ArrayList<>();
+        for (String orig : map.keySet()) {
+            List<Flight> group = map.get(orig);
+            double min = 99999;
+            for (Flight f : group) {
+                Flight nearest = DistanceCalculator.getNearestFlight(f, flights);
+                double distance = DistanceCalculator.getFlightDistance(f, nearest);
+                if (distance < min) min = distance;
+            }
+            if (min < 1) {
+                closeGroups.add(group);
+            }
+        }
+        Color[] colors = toColors(getFDP(closeGroups.size()));
+        int i = 0;
+        for (List<Flight> group : closeGroups) {
+            for (Flight f : group) {
+                f.setPathColor(colors[i]);
+            }
+            i++;
         }
     }
 
-    private List<List<Flight>> groupByOrigin(Flight[] flights) {
-        List<String> origins = new ArrayList<>();
-        List<List<Flight>> list = new ArrayList<>();
+    /**
+     *
+     * @param flights
+     * @return A map with the origin string as keys and a list of flights that apply to each
+     */
+    private Map<String, List<Flight>> groupByOrigin(Flight[] flights) {
+        Map<String, List<Flight>> map = new HashMap<>();
         for (Flight f : flights) {
-            String fOrig = f.getOrigin();
-            if (origins.contains(fOrig)) {
-                list.get(origins.indexOf(fOrig)).add(f);
+            if (map.get(f.getOrigin()) == null) {
+                List<Flight> group = new ArrayList<>();
+                group.add(f);
+                map.put(f.getOrigin(), group);
             }
             else {
-                List<Flight> group = new LinkedList<>();
+                List<Flight> group = map.get(f.getOrigin());
                 group.add(f);
-                list.add(group);
+                map.put(f.getOrigin(), group);
             }
         }
-        return list;
+        return map;
     }
 
     public static void colorByDest(Flight[] flights) {

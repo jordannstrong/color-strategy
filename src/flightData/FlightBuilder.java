@@ -41,7 +41,7 @@ public class FlightBuilder
             ColorAssigner ca = new ColorAssigner();
             FlightBuilder fb = new FlightBuilder(new File("res\\test_routes_200.csv"), 2, 4);
             Flight[] fs = fb.getFlightList();
-            ca.colorByDest(fs);
+            ca.colorByOrigin(fs);
             KMLWriter kw = new KMLWriter(fs);
             kw.toFile("TestFile.kml");
         }
@@ -78,7 +78,7 @@ public class FlightBuilder
      * @param destIndex Index of the destination airport code (3 or 4 char) as a String in the csv table
      */
 	public FlightBuilder(File csvFile, int originIndex, int destIndex) throws IOException{
-        flightList = new Flight[1000];
+            flightList = new Flight[1000];
         BufferedReader fr = new BufferedReader(new FileReader(csvFile));
         int i = 0;
         fr.readLine();
@@ -102,7 +102,7 @@ public class FlightBuilder
 					orig,
 					dest,
                     new double[][] {originCoords, destCoords}, new Color(ColorAssigner.getColor(i))
-					));
+        ));
             i++;
 		} while (fr.readLine() != null);
         flightList = cleanArray(flightList);
@@ -159,7 +159,7 @@ public class FlightBuilder
     }
 
     /**
-	 * TODO: Remove, for testing only
+	 * for testing only
 	 * Dummy flights I came up with just to test the KMLWriter and ColorAssigner.
 	 */
 	public static Flight[] getTestFlights() {
