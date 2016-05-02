@@ -1,4 +1,4 @@
-package database;
+ 
 import java.awt.Color;
 
 /*
@@ -17,6 +17,7 @@ public class Parameter
 	private String value;
 	private String name;
 	private Color color;
+	private String eval;
 
 	//Constructor
 	public Parameter()
@@ -53,10 +54,25 @@ public class Parameter
 	{
 		return color;
 	}
+	
+	public String getEval()
+	{
+	    return eval;
+	}
+	
+	public void setEval(String _eval)
+	{
+	    eval = _eval;
+	}
 
 	//Setter for startPoint field
 	public void setParameterColor(Color _color)
 	{
 		color = _color;
+	}
+	
+	public String toString()
+	{
+	  return "Name: " + name + " Value: " + value + " Color: " +  color;   
 	}
 }
