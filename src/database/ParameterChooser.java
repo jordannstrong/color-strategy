@@ -20,6 +20,7 @@ public class ParameterChooser
     private LinkedList<JComboBox> nameBoxes;
     private LinkedList<JComboBox> evalBoxes;
     private LinkedList<JComboBox> valueBoxes;
+    private LinkedList<JButton> colorBoxes;
     JColorChooser colorChooser;
     Color newColor;
     
@@ -29,6 +30,7 @@ public class ParameterChooser
         nameBoxes = new LinkedList<JComboBox>();
         evalBoxes = new LinkedList<JComboBox>();
         valueBoxes = new LinkedList<JComboBox>();
+        colorBoxes = new LinkedList<JButton>();
 
         //Prepare column list for iteration
         columnList = _colummList;
@@ -83,15 +85,13 @@ public class ParameterChooser
             JComboBox valueBox = new JComboBox();
             JButton colorBox = new JButton();
 
-            newColor = new Color(111111);
-            colorChooser = new JColorChooser(newColor);
-            newColor = colorChooser.getColor();
+            newColor = null;
 
             int yPos = 15 + i * 25;
             nameBox.setBounds(10, yPos, 150, 30);
-            evalBox.setBounds(165, yPos, 20, 30);
-            valueBox.setBounds(190, yPos, 150, 30);
-            colorBox.setBounds(345, yPos, 30, 30);
+            evalBox.setBounds(165, yPos, 40, 30);
+            valueBox.setBounds(210, yPos, 150, 30);
+            colorBox.setBounds(365, yPos, 30, 30);
             panel.add(nameBox);
             panel.add(evalBox);
             panel.add(valueBox);
@@ -99,23 +99,15 @@ public class ParameterChooser
             nameBoxes.add(nameBox);
             evalBoxes.add(evalBox);
             valueBoxes.add(valueBox);
+            colorBoxes.add(colorBox);
 
             colorBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    JFrame newFrame = new JFrame();
-                    newFrame.setBounds(600, 600, 600, 600);
-                    newFrame.add(colorChooser);
-                    newFrame.setVisible(true);
-
-
-                    newColor = colorChooser.getColor();
+                    newColor = JColorChooser.showDialog(null, "", newColor);
                     colorBox.setBackground(newColor);
-
                     frame.validate();
-
-
                 }
             });
 
@@ -176,20 +168,26 @@ public class ParameterChooser
     */
     public LinkedList<Parameter> getParameterList()
     {
+
+        parameterList = new LinkedList<Parameter>();
         ListIterator nameItty = nameBoxes.listIterator();
         ListIterator valueItty = valueBoxes.listIterator();
+        ListIterator colorItty = colorBoxes.listIterator();
 
         while(nameItty.hasNext() && valueItty.hasNext())
         {
             JComboBox nameBox = (JComboBox) nameItty.next();
             JComboBox valueBox = (JComboBox) valueItty.next();
+            JButton colorBox = (JButton) colorItty.next();
 
             String name = String.valueOf(nameBox.getSelectedItem());
             String value = String.valueOf(valueBox.getSelectedItem());
+            Color color = colorBox.getBackground();
 
             Parameter param = new Parameter();
             param.setParameterName(name);
             param.setParameterValue(value);
+            param.setParameterColor(color);
 
             parameterList.add(param);
         }
