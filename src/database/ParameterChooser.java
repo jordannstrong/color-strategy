@@ -86,6 +86,7 @@ public class ParameterChooser
             JButton colorBox = new JButton();
 
             newColor = null;
+            colorBox.setBackground(newColor);
 
             int yPos = 15 + i * 25;
             nameBox.setBounds(10, yPos, 150, 30);
@@ -172,6 +173,7 @@ public class ParameterChooser
         parameterList = new LinkedList<Parameter>();
         ListIterator nameItty = nameBoxes.listIterator();
         ListIterator valueItty = valueBoxes.listIterator();
+        ListIterator evalItty = evalBoxes.listIterator();
         ListIterator colorItty = colorBoxes.listIterator();
 
         while(nameItty.hasNext() && valueItty.hasNext())
@@ -179,15 +181,18 @@ public class ParameterChooser
             JComboBox nameBox = (JComboBox) nameItty.next();
             JComboBox valueBox = (JComboBox) valueItty.next();
             JButton colorBox = (JButton) colorItty.next();
+            JComboBox evalBox = (JComboBox) evalItty.next();
 
             String name = String.valueOf(nameBox.getSelectedItem());
             String value = String.valueOf(valueBox.getSelectedItem());
             Color color = colorBox.getBackground();
+            String eval = String.valueOf(evalBox.getSelectedItem());
 
             Parameter param = new Parameter();
             param.setParameterName(name);
             param.setParameterValue(value);
             param.setParameterColor(color);
+            param.setEval(eval);
 
             parameterList.add(param);
         }

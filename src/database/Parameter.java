@@ -73,6 +73,6 @@ public class Parameter
 	
 	public String toString()
 	{
-	  return "Name: " + name + " Value: " + value + " Color: " +  color;   
+	  return "Name: " + name + " Eval: " + eval + " Value: " + value + " Color: " +  color;
 	}
 }
