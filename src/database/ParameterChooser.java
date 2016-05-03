@@ -1,9 +1,5 @@
 package database;
 
-import FileIO.KMLWriter;
-import color.ColorAssigner;
-import flightData.FlightBuilder;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -119,10 +115,7 @@ public class ParameterChooser
                     newColor = JColorChooser.showDialog(null, "", newColor);
                     mColors.add(newColor);
                     colorBox.setBackground(newColor);
-
                     frame.validate();
-
-
                 }
             });
 
@@ -201,12 +194,15 @@ public class ParameterChooser
         parameterList = new LinkedList<Parameter>();
         ListIterator nameItty = nameBoxes.listIterator();
         ListIterator valueItty = valueBoxes.listIterator();
+        ListIterator evalItty = evalBoxes.listIterator();
         ListIterator colorItty = mColors.listIterator();
 
         while(nameItty.hasNext() && valueItty.hasNext())
         {
             JComboBox nameBox = (JComboBox) nameItty.next();
             JComboBox valueBox = (JComboBox) valueItty.next();
+            JButton colorBox = (JButton) colorItty.next();
+            JComboBox evalBox = (JComboBox) evalItty.next();
             Color color;
             try {
                 color = (Color) colorItty.next();
@@ -217,25 +213,18 @@ public class ParameterChooser
 
             String name = String.valueOf(nameBox.getSelectedItem());
             String value = String.valueOf(valueBox.getSelectedItem());
+            Color color = colorBox.getBackground();
+            String eval = String.valueOf(evalBox.getSelectedItem());
 
             Parameter param = new Parameter();
             param.setParameterName(name);
             param.setParameterValue(value);
             param.setParameterColor(color);
+            param.setEval(eval);
 
             parameterList.add(param);
         }
 
         return parameterList;
-    }
-
-    public static Flight[] toArray(LinkedList<Flight> list) {
-        Flight[] array = new Flight[list.size()];
-        int i = 0;
-        for (Flight f : list) {
-            array[i] = f;
-            i++;
-        }
-        return array;
     }
 }
