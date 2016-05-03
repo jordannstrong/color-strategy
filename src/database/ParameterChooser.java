@@ -205,7 +205,6 @@ public class ParameterChooser
         {
             JComboBox nameBox = (JComboBox) nameItty.next();
             JComboBox valueBox = (JComboBox) valueItty.next();
-            JButton colorBox = (JButton) colorItty.next();
             JComboBox evalBox = (JComboBox) evalItty.next();
             Color color;
             try {
