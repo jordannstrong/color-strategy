@@ -13,12 +13,12 @@ public class Controller
 	private SQLQueryBuilder sqlQueryBuilder;
 
 
-	private Controller() throws SQLException {
+	private Controller() throws SQLException {/*
 		loadDB = new LoadDatabase();
-		columnChooser = new ColumnChooser(loadDB.getColumnList());
+		columnChooser = new ColumnChooser(loadDB.getColumnList(), "");
 		parameterChooser =
-				new ParameterChooser(columnChooser.getSelectedColumnList());
+				new ParameterChooser(columnChooser.getSelectedColumnList(), "");
 		sqlQueryBuilder =
-				new SQLQueryBuilder(parameterChooser.getParameterList());
+				new SQLQueryBuilder(parameterChooser.getParameterList());*/
 	}
 }

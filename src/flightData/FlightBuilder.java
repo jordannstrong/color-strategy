@@ -131,7 +131,7 @@ public class FlightBuilder
             double[] destCoords = {destLONLAT[0], destLONLAT[1], 11000};
             Color color = null;
             for (Parameter p : pList) {
-                switch(p.getParameterName()) {
+                switch (p.getParameterName()) {
                     case "ORIGIN_FIX":
                         if (orig.equals(p.getParameterValue())) color = p.getParameterColor();
                         break;
@@ -142,14 +142,14 @@ public class FlightBuilder
                         if (acType.equals(p.getParameterValue())) color = p.getParameterColor();
                         break;
                 }
+                flightList[i] = (new Flight(
+                        "",
+                        orig,
+                        dest,
+                        new double[][]{originCoords, destCoords}, color
+                ));
+                i++;
             }
-            flightList[i] = (new Flight(
-                    "",
-                    orig,
-                    dest,
-                    new double[][] {originCoords, destCoords}, color
-            ));
-            i++;
         } while (fr.readLine() != null);
         flightList = cleanArray(flightList);
         System.out.println("" + flightList.length);

@@ -36,7 +36,7 @@ public class ParameterChooser
     Color newColor;
     
     //Must be initialized with the 
-    protected ParameterChooser(LinkedList<Column> _colummList)
+    protected ParameterChooser(LinkedList<Column> _colummList, final String filePath)
     {
         nameBoxes = new LinkedList<JComboBox>();
         evalBoxes = new LinkedList<JComboBox>();
@@ -45,11 +45,13 @@ public class ParameterChooser
         mColors = new ArrayList<>();
         parameterList = new LinkedList<>();
 
+        JTextField textField = new JTextField("res/ac_list200.csv");
+        textField.setBounds(410, 85, 120, 50);
+
         //Create the radio buttons.
         JRadioButton origButton = new JRadioButton("Color by Origin");
         origButton.setMnemonic(KeyEvent.VK_B);
         origButton.setActionCommand("Color by Origin");
-        origButton.setSelected(true);
 
         JRadioButton destButton = new JRadioButton("Color by Destination");
         destButton.setMnemonic(KeyEvent.VK_C);
@@ -57,6 +59,7 @@ public class ParameterChooser
 
         JRadioButton randButton = new JRadioButton("Random");
         randButton.setMnemonic(KeyEvent.VK_C);
+        randButton.setSelected(true);
         randButton.setActionCommand("Random");
 
         //Group the radio buttons.
@@ -156,6 +159,7 @@ public class ParameterChooser
             panel.add(origButton);
             panel.add(destButton);
             panel.add(randButton);
+            panel.add(textField);
             nameBoxes.add(nameBox);
             evalBoxes.add(evalBox);
             valueBoxes.add(valueBox);
@@ -201,7 +205,7 @@ public class ParameterChooser
                 LinkedList<Parameter> list = getParameterList();
                 FlightBuilder fb = null;
                 try {
-                    fb = new FlightBuilder(new File("C:\\Users\\Kevin\\IdeaProjects\\color-strategy\\res\\ac_list200.csv"), list, 19, 17);
+                    fb = new FlightBuilder(new File(filePath), list, 19, 17);
                 }
                 catch (IOException ioe) {
                     JOptionPane.showMessageDialog(frame,
@@ -214,7 +218,7 @@ public class ParameterChooser
                 switch(op) {
                     case "ORIG": ca.colorByOrigin(array); break;
                     case "DEST": ca.colorByDest(array);   break;
-                    case "":     ca.colorByOrigin(array); break;
+                    case "":     ca.colorRandomly(array); break;
                 }
                 KMLWriter kml = new KMLWriter(array);
                 kml.toFile("TestFile.kml");
@@ -237,7 +241,7 @@ public class ParameterChooser
         frame.add(button2);
         frame.add(panel);
         frame.setLayout(null);
-        frame.setSize(500, 300);
+        frame.setSize(600, 300);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

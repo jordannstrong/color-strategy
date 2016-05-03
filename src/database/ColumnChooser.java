@@ -21,7 +21,7 @@ public class ColumnChooser extends JFrame
     //Must be initialized with titles and types of data table columns
     //Constructor will create a JFrame containing a Scroll Pane of 
     //checkboxes that allow the user to select their desired data
-    protected ColumnChooser(LinkedList<Column> _columnList) 
+    protected ColumnChooser(LinkedList<Column> _columnList, final String filePath)
     {
         //Prepare column list for iteration
         columnList = _columnList;
@@ -109,7 +109,7 @@ public class ColumnChooser extends JFrame
         {
             public void actionPerformed(ActionEvent actionEvent) {
                 setVisible(false);
-                ParameterChooser pc = new ParameterChooser(columnList);
+                ParameterChooser pc = new ParameterChooser(columnList, filePath);
             }
         });
         

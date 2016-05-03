@@ -300,6 +300,16 @@ public class ColorAssigner {
         }
     }
 
+    public void colorRandomly(Flight[] flights) {
+        int i = 0;
+            for (Flight f : flights) {
+                if (f.getPathColor() == null) {
+                    f.setPathColor(new Color(getColor(i)));
+                }
+                i++;
+            }
+    }
+
     public void colorByDest(Flight[] flights) {
         Map<String, List<Flight>> map = groupByDest(flights);
         List<List<Flight>> closeGroups = new ArrayList<>();
