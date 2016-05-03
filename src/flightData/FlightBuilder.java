@@ -1,22 +1,16 @@
 package flightData;
 import database.Flight;
-
-import FileIO.KMLWriter;
-import color.ColorAssigner;
 import database.Parameter;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,6 +25,8 @@ import java.util.List;
  */
 public class FlightBuilder
 {
+    private final int INDEX_AC_TYPE = 16;
+
 	private LinkedList<String> queryList;
 	private Flight[] flightList;
 	private CSVParser csvParser;
@@ -89,8 +85,8 @@ public class FlightBuilder
             if (line == null) {
                 continue;
             }
-            String orig = readCol(line, originIndex).trim();
-            String dest = readCol(line, destIndex).trim();
+            String orig   = readCol(line, originIndex).trim();
+            String dest   = readCol(line, destIndex).trim();
 			double[] origLONLAT = getCoordinatesOfAirport(orig);
 			double[] destLONLAT = getCoordinatesOfAirport(dest);
             if (origLONLAT == null || destLONLAT == null) {
@@ -124,6 +120,7 @@ public class FlightBuilder
             }
             String orig = readCol(line, originIndex).trim();
             String dest = readCol(line, destIndex).trim();
+            String acType = readCol(line, INDEX_AC_TYPE);
             double[] origLONLAT = getCoordinatesOfAirport(orig);
             double[] destLONLAT = getCoordinatesOfAirport(dest);
             if (origLONLAT == null || destLONLAT == null) {
@@ -140,6 +137,9 @@ public class FlightBuilder
                         break;
                     case "DEST_FIX":
                         if (dest.equals(p.getParameterValue())) color = p.getParameterColor();
+                        break;
+                    case "AC_TYPE":
+                        if (acType.equals(p.getParameterValue())) color = p.getParameterColor();
                         break;
                 }
             }

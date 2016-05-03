@@ -16,6 +16,7 @@ public class Flight
     private String flightID;
     private String origin;
     private String destination;
+    private String acType;
     private double min_X;
     private double max_X;
     private double min_Y;
@@ -197,9 +198,16 @@ public class Flight
     {
         return max_Y;
     }
-        
-    
-    
+
+    public String getAcType() {
+        return acType;
+    }
+
+    public void setAcType(String acType) {
+        this.acType = acType;
+    }
+
+
     /**
      * Accessor method to get the startPoint field of the Flight
      *

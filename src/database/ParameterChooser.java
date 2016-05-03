@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class ParameterChooser
     private LinkedList<JComboBox> valueBoxes;
     private LinkedList<JButton> colorBoxes;
     private ArrayList<Color> mColors;
+    private String op = "";
     JColorChooser colorChooser;
     Color newColor;
     
@@ -43,6 +45,50 @@ public class ParameterChooser
         mColors = new ArrayList<>();
         parameterList = new LinkedList<>();
 
+        //Create the radio buttons.
+        JRadioButton origButton = new JRadioButton("Color by Origin");
+        origButton.setMnemonic(KeyEvent.VK_B);
+        origButton.setActionCommand("Color by Origin");
+        origButton.setSelected(true);
+
+        JRadioButton destButton = new JRadioButton("Color by Destination");
+        destButton.setMnemonic(KeyEvent.VK_C);
+        destButton.setActionCommand("Color by Destination");
+
+        JRadioButton randButton = new JRadioButton("Random");
+        randButton.setMnemonic(KeyEvent.VK_C);
+        randButton.setActionCommand("Random");
+
+        //Group the radio buttons.
+        ButtonGroup group = new ButtonGroup();
+        group.add(origButton);
+        group.add(destButton);
+        group.add(randButton);
+
+        //Register a listener for the radio buttons.
+        origButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                op = "ORIG";
+            }
+        });
+        destButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                op = "DEST";
+            }
+        });
+        randButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                op = "";
+            }
+        });
+
+        origButton.setBounds(410, 15, 150, 50);
+        destButton.setBounds(410, 50, 150, 50);
+        randButton.setBounds(410, 85, 150, 50);
+
         //Prepare column list for iteration
         columnList = _colummList;
         ListIterator<Column> iterator = columnList.listIterator();
@@ -51,7 +97,7 @@ public class ParameterChooser
         final JFrame frame = new JFrame("Select Data Colors");
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        panel.setBounds(0, 0, 400, 300);
+        panel.setBounds(0, 0, 600, 600);
 
 
         /*
@@ -107,6 +153,9 @@ public class ParameterChooser
             panel.add(evalBox);
             panel.add(valueBox);
             panel.add(colorBox);
+            panel.add(origButton);
+            panel.add(destButton);
+            panel.add(randButton);
             nameBoxes.add(nameBox);
             evalBoxes.add(evalBox);
             valueBoxes.add(valueBox);
@@ -152,7 +201,7 @@ public class ParameterChooser
                 LinkedList<Parameter> list = getParameterList();
                 FlightBuilder fb = null;
                 try {
-                    fb = new FlightBuilder(new File("C:\\Users\\Kevin\\IdeaProjects\\color-strategy\\res\\ac_list100.csv"), list, 19, 17);
+                    fb = new FlightBuilder(new File("C:\\Users\\Kevin\\IdeaProjects\\color-strategy\\res\\ac_list200.csv"), list, 19, 17);
                 }
                 catch (IOException ioe) {
                     JOptionPane.showMessageDialog(frame,
@@ -162,7 +211,11 @@ public class ParameterChooser
                 }
                 ColorAssigner ca = new ColorAssigner();
                 Flight[] array = fb.getFlightList();
-                ca.colorByOrigin(array);
+                switch(op) {
+                    case "ORIG": ca.colorByOrigin(array); break;
+                    case "DEST": ca.colorByDest(array);   break;
+                    case "":     ca.colorByOrigin(array); break;
+                }
                 KMLWriter kml = new KMLWriter(array);
                 kml.toFile("TestFile.kml");
                 
