@@ -1,6 +1,6 @@
 package color;
 
-import flightData.Flight;
+import database.Flight;
 
 /**
  * Created by Kevin on 4/26/2016.

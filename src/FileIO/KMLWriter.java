@@ -8,7 +8,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import flightData.Flight;
+import database.Flight;
 import org.w3c.dom.*;
 
 import java.awt.*;

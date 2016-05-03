@@ -1,7 +1,7 @@
 package color;
 
 
-import flightData.Flight;
+import database.Flight;
 import mock.TestColors;
 
 import java.awt.*;
@@ -25,6 +25,7 @@ public class ColorAssigner {
         Color[] colors = ca.toColors(ca.getFDP(5));
         TestColors tc = new TestColors(colors);
     }
+
 
     public double[][] getFDP(int n) {
         double[][] result = new double[n][3];
@@ -282,15 +283,46 @@ public class ColorAssigner {
                 double distance = DistanceCalculator.getFlightDistance(f, nearest);
                 if (distance < min) min = distance;
             }
-            if (min < 1) {
+            if (min < 5) {
                 closeGroups.add(group);
             }
+            //System.out.println("Group size=" + group.size());
         }
         Color[] colors = toColors(getFDP(closeGroups.size()));
         int i = 0;
         for (List<Flight> group : closeGroups) {
             for (Flight f : group) {
-                f.setPathColor(colors[i]);
+                if (f.getPathColor() == null) {
+                    f.setPathColor(colors[i]);
+                }
+            }
+            i++;
+        }
+    }
+
+    public void colorByDest(Flight[] flights) {
+        Map<String, List<Flight>> map = groupByDest(flights);
+        List<List<Flight>> closeGroups = new ArrayList<>();
+        for (String dest : map.keySet()) {
+            List<Flight> group = map.get(dest);
+            double min = 99999;
+            for (Flight f : group) {
+                Flight nearest = DistanceCalculator.getNearestFlight(f, flights);
+                double distance = DistanceCalculator.getFlightDistance(f, nearest);
+                if (distance < min) min = distance;
+            }
+            if (min < 5) {
+                closeGroups.add(group);
+            }
+            //System.out.println("Group size=" + group.size());
+        }
+        Color[] colors = toColors(getFDP(closeGroups.size()));
+        int i = 0;
+        for (List<Flight> group : closeGroups) {
+            for (Flight f : group) {
+                if (f.getPathColor() == null) {
+                    f.setPathColor(colors[i]);
+                }
             }
             i++;
         }
@@ -318,17 +350,21 @@ public class ColorAssigner {
         return map;
     }
 
-    public static void colorByDest(Flight[] flights) {
-        List<String> dests = new ArrayList<>();
+    private Map<String, List<Flight>> groupByDest(Flight[] flights) {
+        Map<String, List<Flight>> map = new HashMap<>();
         for (Flight f : flights) {
-            if (f != null) {
-                if (dests.contains(f.getOrigin())) {
-                    f.setPathColor(new Color(ColorAssigner.getColor(dests.indexOf(f.getDestination()))));
-                } else {
-                    f.setPathColor(new Color(ColorAssigner.getColor(dests.size())));
-                    dests.add(f.getDestination());
-                }
+            if (map.get(f.getDestination()) == null) {
+                List<Flight> group = new ArrayList<>();
+                group.add(f);
+                map.put(f.getDestination(), group);
+            }
+            else {
+                List<Flight> group = map.get(f.getDestination());
+                group.add(f);
+                map.put(f.getDestination(), group);
             }
         }
+        return map;
     }
+
 }

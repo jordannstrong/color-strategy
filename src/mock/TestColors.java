@@ -12,6 +12,7 @@ public class TestColors extends Frame {
     private final int WINDOW_HEIGHT = 1000;
     private final int WINDOW_WIDTH = 400;
     private Color[] colors;
+    private Color c;
 
     public static void main(String[] args){
         //TestColors testColors = new TestColors();
@@ -25,6 +26,10 @@ public class TestColors extends Frame {
         setVisible(true);
     }
 
+    public TestColors(Color c) {
+        this.c = c;
+    }
+
     private void prepareGUI(){
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         addWindowListener(new WindowAdapter() {
@@ -36,7 +41,7 @@ public class TestColors extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        testLABPicker(g);
+        showColor(c, g);
     }
 
     public void testHSLPicker(Graphics g) {
@@ -76,6 +81,11 @@ public class TestColors extends Frame {
                 g.fillRect(0, i *height + 10, 400, height);
             }
 
+    }
+    public static void showColor(Color color, Graphics g) {
+        g.setColor(color);
+        Rectangle rect3 = new Rectangle(0, 10, 400, 60);
+        g.fillRect(0, 10, 400, 60);
     }
 
 

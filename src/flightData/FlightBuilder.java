@@ -1,7 +1,9 @@
 package flightData;
+import database.Flight;
 
 import FileIO.KMLWriter;
 import color.ColorAssigner;
+import database.Parameter;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -32,14 +34,14 @@ public class FlightBuilder
 	private LinkedList<String> queryList;
 	private Flight[] flightList;
 	private CSVParser csvParser;
-
+    private List<Parameter> pList;
 	/**
 	 * Driver method for testing.
 	 */
 	public static void main(String[] args) {
-        try {
+        /*try {
             ColorAssigner ca = new ColorAssigner();
-            FlightBuilder fb = new FlightBuilder(new File("res\\test_routes_200.csv"), 2, 4);
+            FlightBuilder fb = new FlightBuilder(new File("res\\test_routes_350.csv"), 2, 4);
             Flight[] fs = fb.getFlightList();
             ca.colorByOrigin(fs);
             KMLWriter kw = new KMLWriter(fs);
@@ -47,7 +49,7 @@ public class FlightBuilder
         }
         catch (IOException ioe) {
             ioe.printStackTrace();
-        }
+        }*/
 	}
 
 	/**
@@ -87,8 +89,8 @@ public class FlightBuilder
             if (line == null) {
                 continue;
             }
-            String orig = readCol(line, originIndex);
-            String dest = readCol(line, destIndex);
+            String orig = readCol(line, originIndex).trim();
+            String dest = readCol(line, destIndex).trim();
 			double[] origLONLAT = getCoordinatesOfAirport(orig);
 			double[] destLONLAT = getCoordinatesOfAirport(dest);
             if (origLONLAT == null || destLONLAT == null) {
@@ -101,13 +103,57 @@ public class FlightBuilder
 					"",
 					orig,
 					dest,
-                    new double[][] {originCoords, destCoords}, new Color(ColorAssigner.getColor(i))
+                    new double[][] {originCoords, destCoords}, null
         ));
             i++;
 		} while (fr.readLine() != null);
         flightList = cleanArray(flightList);
 		System.out.println("" + flightList.length);
 	}
+
+    public FlightBuilder(File csvFile, List<Parameter> pList, int originIndex, int destIndex) throws IOException{
+        flightList = new Flight[1000];
+        this.pList = pList;
+        BufferedReader fr = new BufferedReader(new FileReader(csvFile));
+        int i = 0;
+        fr.readLine();
+        do {
+            String line = fr.readLine();
+            if (line == null) {
+                continue;
+            }
+            String orig = readCol(line, originIndex).trim();
+            String dest = readCol(line, destIndex).trim();
+            double[] origLONLAT = getCoordinatesOfAirport(orig);
+            double[] destLONLAT = getCoordinatesOfAirport(dest);
+            if (origLONLAT == null || destLONLAT == null) {
+                System.err.println("Problem with record " + i);
+                continue;
+            }
+            double[] originCoords = {origLONLAT[0], origLONLAT[1], 11000};
+            double[] destCoords = {destLONLAT[0], destLONLAT[1], 11000};
+            Color color = null;
+            for (Parameter p : pList) {
+                switch(p.getParameterName()) {
+                    case "ORIGIN_FIX":
+                        if (orig.equals(p.getParameterValue())) color = p.getParameterColor();
+                        break;
+                    case "DEST_FIX":
+                        if (dest.equals(p.getParameterValue())) color = p.getParameterColor();
+                        break;
+                }
+            }
+            flightList[i] = (new Flight(
+                    "",
+                    orig,
+                    dest,
+                    new double[][] {originCoords, destCoords}, color
+            ));
+            i++;
+        } while (fr.readLine() != null);
+        flightList = cleanArray(flightList);
+        System.out.println("" + flightList.length);
+    }
 
     private String readCol(String line, int col) throws IOException{
         String[] array = line.split(",");
@@ -218,4 +264,7 @@ public class FlightBuilder
 		return flightList;
 	}
 
+    public List<Parameter> getpList() {
+        return pList;
+    }
 }

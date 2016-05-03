@@ -1,11 +1,19 @@
 package database;
 
+import FileIO.KMLWriter;
+import color.ColorAssigner;
+import flightData.FlightBuilder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 /* This class will serve as the User Interface for 
 * selecting which flights the user wishes to visualize
@@ -21,6 +29,7 @@ public class ParameterChooser
     private LinkedList<JComboBox> evalBoxes;
     private LinkedList<JComboBox> valueBoxes;
     private LinkedList<JButton> colorBoxes;
+    private ArrayList<Color> mColors;
     JColorChooser colorChooser;
     Color newColor;
     
@@ -31,13 +40,15 @@ public class ParameterChooser
         evalBoxes = new LinkedList<JComboBox>();
         valueBoxes = new LinkedList<JComboBox>();
         colorBoxes = new LinkedList<JButton>();
+        mColors = new ArrayList<>();
+        parameterList = new LinkedList<>();
 
         //Prepare column list for iteration
         columnList = _colummList;
         ListIterator<Column> iterator = columnList.listIterator();
 
         //Set up frame and panel
-        JFrame frame = new JFrame("Select Data Colors");
+        final JFrame frame = new JFrame("Select Data Colors");
         JPanel panel = new JPanel();
         panel.setLayout(null);
         panel.setBounds(0, 0, 400, 300);
@@ -80,10 +91,10 @@ public class ParameterChooser
         //Now that we have the column names ready, create list of name boxes
         for(int i = 0; i < 5; i++)
         {
-            JComboBox nameBox = new JComboBox(names);
-            JComboBox evalBox = new JComboBox(evals);
-            JComboBox valueBox = new JComboBox();
-            JButton colorBox = new JButton();
+            final JComboBox nameBox = new JComboBox(names);
+            final JComboBox evalBox = new JComboBox(evals);
+            final JComboBox valueBox = new JComboBox();
+            final JButton colorBox = new JButton();
 
             newColor = null;
 
@@ -106,8 +117,12 @@ public class ParameterChooser
                 public void actionPerformed(ActionEvent e) {
 
                     newColor = JColorChooser.showDialog(null, "", newColor);
+                    mColors.add(newColor);
                     colorBox.setBackground(newColor);
+
                     frame.validate();
+
+
                 }
             });
 
@@ -137,8 +152,22 @@ public class ParameterChooser
         button.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent actionEvent) {
-                getParameterList();
-                System.out.println(parameterList);
+                LinkedList<Parameter> list = getParameterList();
+                FlightBuilder fb = null;
+                try {
+                    fb = new FlightBuilder(new File("C:\\Users\\Kevin\\IdeaProjects\\color-strategy\\res\\ac_list100.csv"), list, 19, 17);
+                }
+                catch (IOException ioe) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Error reading file.",
+                            "File IO Exception",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+                ColorAssigner ca = new ColorAssigner();
+                Flight[] array = fb.getFlightList();
+                ca.colorByOrigin(array);
+                KMLWriter kml = new KMLWriter(array);
+                kml.toFile("TestFile.kml");
                 
             }
         });
@@ -172,17 +201,22 @@ public class ParameterChooser
         parameterList = new LinkedList<Parameter>();
         ListIterator nameItty = nameBoxes.listIterator();
         ListIterator valueItty = valueBoxes.listIterator();
-        ListIterator colorItty = colorBoxes.listIterator();
+        ListIterator colorItty = mColors.listIterator();
 
         while(nameItty.hasNext() && valueItty.hasNext())
         {
             JComboBox nameBox = (JComboBox) nameItty.next();
             JComboBox valueBox = (JComboBox) valueItty.next();
-            JButton colorBox = (JButton) colorItty.next();
+            Color color;
+            try {
+                color = (Color) colorItty.next();
+            }
+            catch (NoSuchElementException nsee) {
+                color = null;
+            }
 
             String name = String.valueOf(nameBox.getSelectedItem());
             String value = String.valueOf(valueBox.getSelectedItem());
-            Color color = colorBox.getBackground();
 
             Parameter param = new Parameter();
             param.setParameterName(name);
@@ -193,5 +227,15 @@ public class ParameterChooser
         }
 
         return parameterList;
+    }
+
+    public static Flight[] toArray(LinkedList<Flight> list) {
+        Flight[] array = new Flight[list.size()];
+        int i = 0;
+        for (Flight f : list) {
+            array[i] = f;
+            i++;
+        }
+        return array;
     }
 }
