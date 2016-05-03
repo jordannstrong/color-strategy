@@ -1,5 +1,9 @@
 package database;
 
+import FileIO.KMLWriter;
+import color.ColorAssigner;
+import flightData.FlightBuilder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -213,7 +217,6 @@ public class ParameterChooser
 
             String name = String.valueOf(nameBox.getSelectedItem());
             String value = String.valueOf(valueBox.getSelectedItem());
-            Color color = colorBox.getBackground();
             String eval = String.valueOf(evalBox.getSelectedItem());
 
             Parameter param = new Parameter();
